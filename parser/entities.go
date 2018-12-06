@@ -16,10 +16,10 @@
 
 package parser
 
-type Pipeline map[int] Operator
+type Pipeline map[string] Operator
 
 type Operator struct {
-	Id int `json:"id,omitempty"`
+	Id string `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
 	ImageId string
 	InputTopics map [string] InputTopic

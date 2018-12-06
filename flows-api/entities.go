@@ -23,29 +23,21 @@ type Flow struct {
 }
 
 type Model struct {
-	Edges []Edge `json:"edges,omitempty"`
-	Nodes []Node `json:"nodes,omitempty"`
+	Cells []Cell `json:"cells,omitempty"`
 }
 
-type Edge struct {
-	Destination int `json:"destination,omitempty"`
-	Source      int `json:"source,omitempty"`
+type Cell struct {
+	Id       string    `json:"id,omitempty"`
+	Name  string    `json:"name,omitempty"`
+	InPorts  [] string `json:"inPorts,omitempty"`
+	OutPorts [] string `json:"outPorts,omitempty"`
+	Type     string    `json:"type,omitempty"`
+	Source   Port   `json:"source,omitempty"`
+	Target   Port   `json:"target,omitempty"`
+	Image string `json:"image,omitempty"`
 }
 
-type Node struct {
-	Id         int         `json:"id, omitempty"`
-	Name       string      `json:"name,omitempty"`
-	ImageId    string      `json:"imageId"`
-	Connectors []Connector `json:"connectors"`
-}
-
-type Connector struct {
-	Id    int    `json:"id"`
-	Type  string `json:"type"`
-	Value Value  `json:"value"`
-}
-
-type Value struct {
-	Name string `json:"name"`
-	Type string `json:"type"`
+type Port struct {
+	Id   string `json:"id,omitempty"`
+	Port string `json:"port,omitempty"`
 }

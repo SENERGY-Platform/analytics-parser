@@ -19,8 +19,7 @@ package parser
 import (
 	"analytics-parser/lib"
 	"analytics-parser/flows-api"
-	"fmt"
-	"strconv"
+	"github.com/pkg/errors"
 )
 
 type FlowParser struct {
@@ -35,52 +34,55 @@ func NewFlowParser (flowApi lib.FlowApiService, operatorApi lib.OperatorApiServi
 
 func (f FlowParser) ParseFlow (id string, userId  string) Pipeline {
 	var pipeline =  make(Pipeline)
+	// Get flow to execute
 	flow, _ := f.flowApi.GetFlowData(id, userId)
 
-	// Create Nodes
-	for _ , node := range flow.Model.Nodes {
-		var operator = Operator{node.Id, node.Name, node.ImageId, make(map [string] InputTopic)}
-		pipeline[node.Id] =  operator
-	}
-
-	// Create Input Topics
-	for _, edge := range flow.Model.Edges{
-		var sourceConnector = flow.Model.GetConnectorById(edge.Source)
-		var destinationConnector = flow.Model.GetConnectorById(edge.Destination)
-
-		// Make mapping
-		var mapping = Mapping{}
-
-		//get name of output topic
-		var outputTopic = ""
-
-		//TODO: Needs refactoring
-		if flow.Model.GetConnectorById(edge.Source).Type != "topConnector" {
-			mapping = Mapping{sourceConnector.Value.Name, destinationConnector.Value.Name}
-			outputTopic = getOperatorOutputTopic(pipeline[flow.Model.GetNodeIdByConnectorId(edge.Source)].Name)
-			topic := pipeline[flow.Model.GetNodeIdByConnectorId(edge.Destination)].InputTopics[outputTopic]
-			topic.FilterValue = strconv.Itoa(pipeline[flow.Model.GetNodeIdByConnectorId(edge.Source)].Id)
-			topic.FilterType = "OperatorId"
-			topic.Mappings = append(topic.Mappings, mapping)
-			pipeline[flow.Model.GetNodeIdByConnectorId(edge.Destination)].InputTopics[outputTopic] = topic
-		} else {
-			mapping = Mapping{destinationConnector.Value.Name, sourceConnector.Value.Name}
-			outputTopic = getOperatorOutputTopic(pipeline[flow.Model.GetNodeIdByConnectorId(edge.Destination)].Name)
-			topic := pipeline[flow.Model.GetNodeIdByConnectorId(edge.Source)].InputTopics[outputTopic]
-			topic.Mappings = append(topic.Mappings, mapping)
-			pipeline[flow.Model.GetNodeIdByConnectorId(edge.Source)].InputTopics[outputTopic] = topic
+	// Create basic operator list
+	for _, cell := range flow.Model.Cells {
+		if cell.Type == "senergy.NodeElement" {
+			var operator = Operator{cell.Id, cell.Name, cell.Image, make(map [string] InputTopic)}
+			pipeline[cell.Id] = operator
 		}
 	}
+
+	// Append input topics to operators
+	for _, link := range flow.Model.Cells {
+		if link.Type == "link" {
+			node, _ := getNodeById(flow.Model, link.Source.Id)
+			var outputTopic = getOperatorOutputTopic(node.Name)
+			var topic = InputTopic {}
+			var mapping = Mapping{link.Source.Port, link.Target.Port}
+
+			if len(pipeline[link.Target.Id].InputTopics[outputTopic].Mappings) < 1 {
+				topic.FilterType = "OperatorId"
+				topic.FilterValue = link.Source.Id
+			} else {
+				topic = pipeline[link.Target.Id].InputTopics[outputTopic]
+			}
+
+			topic.Mappings = append(topic.Mappings, mapping)
+			pipeline[link.Target.Id].InputTopics[outputTopic] = topic
+		}
+	}
+
 	return pipeline
 }
 
-func (f FlowParser) GetInputs (id string, userId string) ([] flows_api.Node) {
+func (f FlowParser) GetInputs (id string, userId string) ([] flows_api.Cell) {
 	flow, _ := f.flowApi.GetFlowData(id, userId)
-	fmt.Println(flow)
 	return flow.Model.GetEmptyNodeInputs()
 }
 
-func getOperatorOutputTopic (name string) (op_name string) {
-	op_name = "analytics-" + name
+func getOperatorOutputTopic (name string) (opName string) {
+	opName = "analytics-" + name
 	return
+}
+
+func getNodeById(model flows_api.Model, id string) (flows_api.Cell, error) {
+	for _, cell := range model.Cells {
+		if id == cell.Id {
+			return cell, nil
+		}
+	}
+	return flows_api.Cell{}, errors.New("Could not find any cell")
 }

@@ -19,6 +19,7 @@ package flows_api
 import (
 	"github.com/parnurzeal/gorequest"
 	"encoding/json"
+	"fmt"
 )
 
 type FlowApi struct {
@@ -31,7 +32,10 @@ func NewFlowApi(url string) *FlowApi {
 
 func (f FlowApi) GetFlowData(id string, userId string) (flow Flow, err error) {
 	request := gorequest.New()
-	_, body, _ := request.Get(f.url+"flow/" + id + "/").Set("X-UserId", userId).End()
+	_, body, _ := request.Get(f.url+"/flow/" + id ).Set("X-UserID", userId).End()
 	err = json.Unmarshal([]byte(body), &flow)
+	if err != nil {
+		fmt.Println(err)
+	}
 	return
 }

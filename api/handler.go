@@ -38,8 +38,8 @@ func CreateServer(){
 
 	e := NewEndpoint(f, o)
 	router.HandleFunc("/", e.getRootEndpoint).Methods("GET")
-	router.HandleFunc("/pipe/{id}", e.getParseFlow).Methods("GET")
-	router.HandleFunc("/pipe/getinputs/{id}", e.getGetInputs).Methods("GET")
+	router.HandleFunc("/flow/{id}", e.getParseFlow).Methods("GET")
+	router.HandleFunc("/flow/getinputs/{id}", e.getGetInputs).Methods("GET")
 	handler := cors.New(cors.Options{
 		AllowedHeaders: []string{"Content-Type", "Authorization"},
 		AllowedOrigins: []string{"*"},
