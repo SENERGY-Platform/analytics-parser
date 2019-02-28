@@ -16,6 +16,8 @@
 
 package flows_api
 
+import "fmt"
+
 func (m *Model) GetConnectorById(id int) () {
 }
 
@@ -24,6 +26,55 @@ func (m *Model) GetNodeById(id int) (cell Cell) {
 }
 
 func (m *Model) GetNodeIdByConnectorId(connectorId int) (id int) {
+	return
+}
+
+func (m *Model) GetEmptyNodeInputsAndConfigValues() (nodes []Cell) {
+	cellList := map[string]map[string] bool{}
+
+	// Create cell list
+	for _, cell := range m.Cells {
+		if cell.Type == "senergy.NodeElement" {
+			cellList[cell.Id] = map[string] bool{}
+			for _, port := range cell.InPorts {
+				cellList[cell.Id][port] = false
+			}
+			if len(cell.Config) > 0 {
+				cellList[cell.Id] ["_config"] = true
+			}
+		}
+	}
+
+	// Check if cell input ports have links
+	for _, cell := range m.Cells {
+		if cell.Type == "link" {
+			delete(cellList[cell.Target.Id], cell.Target.Port)
+		}
+	}
+
+	// Remove all cells without free input ports
+	for cellId := range cellList {
+		if len(cellList[cellId]) < 1 {
+			delete(cellList, cellId)
+		}
+	}
+
+	// Create node list and filter assigned ports
+	if len(cellList) > 0 {
+		for _, cell := range m.Cells {
+			if _, ok := cellList[cell.Id]; ok {
+				keys := make([]string, 0, len(cellList[cell.Id]))
+				for k := range cellList[cell.Id] {
+					if k != "_config" {
+						keys = append(keys, k)
+					}
+				}
+				fmt.Println(keys)
+				cell.InPorts = keys
+				nodes = append(nodes, cell)
+			}
+		}
+	}
 	return
 }
 

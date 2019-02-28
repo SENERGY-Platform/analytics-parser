@@ -18,13 +18,8 @@ package lib
 
 import (
 	"analytics-parser/flows-api"
-	"analytics-parser/operator-api"
 )
 
 type FlowApiService interface {
 	GetFlowData(id string, userId string) (flows_api.Flow, error)
-}
-
-type OperatorApiService interface {
-	GetOperator(id string) (op operator_api.Operator, err error)
 }

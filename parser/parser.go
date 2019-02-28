@@ -24,12 +24,11 @@ import (
 
 type FlowParser struct {
 	flowApi lib.FlowApiService
-	operatorApi lib.OperatorApiService
 }
 
-func NewFlowParser (flowApi lib.FlowApiService, operatorApi lib.OperatorApiService) * FlowParser {
+func NewFlowParser (flowApi lib.FlowApiService) * FlowParser {
 
-	return &FlowParser{flowApi, operatorApi}
+	return &FlowParser{flowApi}
 }
 
 func (f FlowParser) ParseFlow (id string, userId  string) Pipeline {
@@ -68,9 +67,9 @@ func (f FlowParser) ParseFlow (id string, userId  string) Pipeline {
 	return pipeline
 }
 
-func (f FlowParser) GetInputs (id string, userId string) ([] flows_api.Cell) {
+func (f FlowParser) GetInputsAndConfig (id string, userId string) ([] flows_api.Cell) {
 	flow, _ := f.flowApi.GetFlowData(id, userId)
-	return flow.Model.GetEmptyNodeInputs()
+	return flow.Model.GetEmptyNodeInputsAndConfigValues()
 }
 
 func getOperatorOutputTopic (name string) (opName string) {

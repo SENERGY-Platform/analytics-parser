@@ -24,19 +24,17 @@ import (
 	"github.com/rs/cors"
 	"analytics-parser/lib"
 	"analytics-parser/flows-api"
-	"analytics-parser/operator-api"
 )
 
 func CreateServer(){
 	f := flows_api.NewFlowApi(
 		lib.GetEnv("FLOW_API_ENDPOINT", ""),
 	)
-	o := operator_api.NewOperatorApi(lib.GetEnv("OPERATOR_API_ENDPOINT", ""))
 	port := lib.GetEnv("API_PORT", "8000")
 	fmt.Print("Starting Server at port " + port + "\n")
 	router := mux.NewRouter()
 
-	e := NewEndpoint(f, o)
+	e := NewEndpoint(f)
 	router.HandleFunc("/", e.getRootEndpoint).Methods("GET")
 	router.HandleFunc("/flow/{id}", e.getParseFlow).Methods("GET")
 	router.HandleFunc("/flow/getinputs/{id}", e.getGetInputs).Methods("GET")

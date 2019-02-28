@@ -30,8 +30,8 @@ type Endpoint struct {
 	flowParser *parser.FlowParser
 }
 
-func NewEndpoint(flowApiService lib.FlowApiService, operator_api lib.OperatorApiService) *Endpoint{
-	ret := parser.NewFlowParser(flowApiService, operator_api)
+func NewEndpoint(flowApiService lib.FlowApiService) *Endpoint{
+	ret := parser.NewFlowParser(flowApiService)
 	return &Endpoint{flowApiService ,ret}
 }
 
@@ -51,7 +51,7 @@ func (e *Endpoint) getParseFlow(w http.ResponseWriter, req *http.Request) {
 
 func (e *Endpoint) getGetInputs(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
-	ret := e.flowParser.GetInputs(vars["id"], e.getUserId(req))
+	ret := e.flowParser.GetInputsAndConfig(vars["id"], e.getUserId(req))
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 	json.NewEncoder(w).Encode(ret)

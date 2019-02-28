@@ -35,9 +35,15 @@ type Cell struct {
 	Source   Port   `json:"source,omitempty"`
 	Target   Port   `json:"target,omitempty"`
 	Image string `json:"image,omitempty"`
+	Config [] ConfigValue `json:"config,omitempty"`
 }
 
 type Port struct {
 	Id   string `json:"id,omitempty"`
 	Port string `json:"port,omitempty"`
+}
+
+type ConfigValue struct {
+	Name   string `json:"name,omitempty"`
+	Type string `json:"type,omitempty"`
 }
