@@ -31,10 +31,14 @@ func NewFlowParser (flowApi lib.FlowApiService) * FlowParser {
 	return &FlowParser{flowApi}
 }
 
-func (f FlowParser) ParseFlow (id string, userId  string) Pipeline {
-	var pipeline =  make(Pipeline)
+func (f FlowParser) ParseFlow (id string, userId  string) (pipeline Pipeline , err error) {
+	pipeline = make(Pipeline)
 	// Get flow to execute
-	flow, _ := f.flowApi.GetFlowData(id, userId)
+	flow, err := f.flowApi.GetFlowData(id, userId)
+
+	if err != nil {
+		return
+	}
 
 	// Create basic operator list
 	for _, cell := range flow.Model.Cells {
@@ -64,12 +68,12 @@ func (f FlowParser) ParseFlow (id string, userId  string) Pipeline {
 		}
 	}
 
-	return pipeline
+	return
 }
 
-func (f FlowParser) GetInputsAndConfig (id string, userId string) ([] flows_api.Cell) {
-	flow, _ := f.flowApi.GetFlowData(id, userId)
-	return flow.Model.GetEmptyNodeInputsAndConfigValues()
+func (f FlowParser) GetInputsAndConfig (id string, userId string) ([] flows_api.Cell, error) {
+	flow, err := f.flowApi.GetFlowData(id, userId)
+	return flow.Model.GetEmptyNodeInputsAndConfigValues(), err
 }
 
 func getOperatorOutputTopic (name string) (opName string) {

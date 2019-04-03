@@ -43,18 +43,29 @@ func (e *Endpoint) getRootEndpoint(w http.ResponseWriter, req *http.Request) {
 
 func (e *Endpoint) getParseFlow(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
-	ret := e.flowParser.ParseFlow(vars["id"], e.getUserId(req))
+	ret, err := e.flowParser.ParseFlow(vars["id"], e.getUserId(req))
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-	json.NewEncoder(w).Encode(ret)
+	if err != nil {
+		w.WriteHeader(500)
+		json.NewEncoder(w).Encode(err)
+	} else {
+		w.WriteHeader(200)
+		json.NewEncoder(w).Encode(ret)
+	}
+	w.Header().Set("Content-Type", "application/json")
 }
 
 func (e *Endpoint) getGetInputs(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
-	ret := e.flowParser.GetInputsAndConfig(vars["id"], e.getUserId(req))
+	ret, err := e.flowParser.GetInputsAndConfig(vars["id"], e.getUserId(req))
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(200)
-	json.NewEncoder(w).Encode(ret)
+	if err != nil {
+		w.WriteHeader(500)
+		json.NewEncoder(w).Encode(err)
+	} else {
+		w.WriteHeader(200)
+		json.NewEncoder(w).Encode(ret)
+	}
 }
 
 func (e *Endpoint) getUserId(req *http.Request) (userId string){
