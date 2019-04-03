@@ -16,8 +16,6 @@
 
 package flows_api
 
-import "fmt"
-
 func (m *Model) GetConnectorById(id int) () {
 }
 
@@ -69,7 +67,6 @@ func (m *Model) GetEmptyNodeInputsAndConfigValues() (nodes []Cell) {
 						keys = append(keys, k)
 					}
 				}
-				fmt.Println(keys)
 				cell.InPorts = keys
 				nodes = append(nodes, cell)
 			}

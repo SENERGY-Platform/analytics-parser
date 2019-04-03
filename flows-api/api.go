@@ -41,7 +41,7 @@ func (f FlowApi) GetFlowData(id string, userId string) (flow Flow, err error) {
 	}
 	err = json.Unmarshal([]byte(body), &flow)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 	return
 }
