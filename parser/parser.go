@@ -43,7 +43,7 @@ func (f FlowParser) ParseFlow (id string, userId  string) (pipeline Pipeline , e
 	// Create basic operator list
 	for _, cell := range flow.Model.Cells {
 		if cell.Type == "senergy.NodeElement" {
-			var operator = Operator{cell.Id, cell.Name, cell.Image, make(map [string] InputTopic)}
+			var operator = Operator{cell.Id, cell.Name, cell.OperatorId,cell.Image, make(map [string] InputTopic)}
 			pipeline[cell.Id] = operator
 		}
 	}
