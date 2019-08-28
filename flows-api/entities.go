@@ -27,16 +27,17 @@ type Model struct {
 }
 
 type Cell struct {
-	Id       string    `json:"id,omitempty"`
-	Name  string    `json:"name,omitempty"`
-	InPorts  [] string `json:"inPorts,omitempty"`
-	OutPorts [] string `json:"outPorts,omitempty"`
-	Type     string    `json:"type,omitempty"`
-	Source   Port   `json:"source,omitempty"`
-	Target   Port   `json:"target,omitempty"`
-	Image string `json:"image,omitempty"`
-	Config [] ConfigValue `json:"config,omitempty"`
-	OperatorId       string    `json:"operatorId,omitempty"`
+	Id             string        `json:"id,omitempty"`
+	Name           string        `json:"name,omitempty"`
+	DeploymentType string        `json:"deploymentType,omitempty"`
+	InPorts        []string      `json:"inPorts,omitempty"`
+	OutPorts       []string      `json:"outPorts,omitempty"`
+	Type           string        `json:"type,omitempty"`
+	Source         Port          `json:"source,omitempty"`
+	Target         Port          `json:"target,omitempty"`
+	Image          string        `json:"image,omitempty"`
+	Config         []ConfigValue `json:"config,omitempty"`
+	OperatorId     string        `json:"operatorId,omitempty"`
 }
 
 type Port struct {
@@ -45,6 +46,6 @@ type Port struct {
 }
 
 type ConfigValue struct {
-	Name   string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 	Type string `json:"type,omitempty"`
 }

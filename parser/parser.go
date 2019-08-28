@@ -17,8 +17,9 @@
 package parser
 
 import (
-	"analytics-parser/lib"
 	"analytics-parser/flows-api"
+	"analytics-parser/lib"
+
 	"github.com/pkg/errors"
 )
 
@@ -26,12 +27,12 @@ type FlowParser struct {
 	flowApi lib.FlowApiService
 }
 
-func NewFlowParser (flowApi lib.FlowApiService) * FlowParser {
+func NewFlowParser(flowApi lib.FlowApiService) *FlowParser {
 
 	return &FlowParser{flowApi}
 }
 
-func (f FlowParser) ParseFlow (id string, userId  string) (pipeline Pipeline , err error) {
+func (f FlowParser) ParseFlow(id string, userId string) (pipeline Pipeline, err error) {
 	pipeline = make(Pipeline)
 	// Get flow to execute
 	flow, err := f.flowApi.GetFlowData(id, userId)
@@ -43,7 +44,7 @@ func (f FlowParser) ParseFlow (id string, userId  string) (pipeline Pipeline , e
 	// Create basic operator list
 	for _, cell := range flow.Model.Cells {
 		if cell.Type == "senergy.NodeElement" {
-			var operator = Operator{cell.Id, cell.Name, cell.OperatorId,cell.Image, make(map [string] InputTopic)}
+			var operator = Operator{cell.Id, cell.Name, cell.OperatorId, cell.DeploymentType, cell.Image, make(map[string]InputTopic)}
 			pipeline[cell.Id] = operator
 		}
 	}
@@ -53,7 +54,7 @@ func (f FlowParser) ParseFlow (id string, userId  string) (pipeline Pipeline , e
 		if link.Type == "link" {
 			node, _ := getNodeById(flow.Model, link.Source.Id)
 			var outputTopic = getOperatorOutputTopic(node.Name)
-			var topic = InputTopic {}
+			var topic = InputTopic{}
 			var mapping = Mapping{link.Source.Port, link.Target.Port}
 
 			if len(pipeline[link.Target.Id].InputTopics[outputTopic].Mappings) < 1 {
@@ -71,12 +72,12 @@ func (f FlowParser) ParseFlow (id string, userId  string) (pipeline Pipeline , e
 	return
 }
 
-func (f FlowParser) GetInputsAndConfig (id string, userId string) ([] flows_api.Cell, error) {
+func (f FlowParser) GetInputsAndConfig(id string, userId string) ([]flows_api.Cell, error) {
 	flow, err := f.flowApi.GetFlowData(id, userId)
 	return flow.Model.GetEmptyNodeInputsAndConfigValues(), err
 }
 
-func getOperatorOutputTopic (name string) (opName string) {
+func getOperatorOutputTopic(name string) (opName string) {
 	opName = "analytics-" + name
 	return
 }
