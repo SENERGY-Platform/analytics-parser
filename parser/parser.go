@@ -33,7 +33,7 @@ func NewFlowParser(flowApi lib.FlowApiService) *FlowParser {
 }
 
 func (f FlowParser) ParseFlow(id string, userId string) (pipeline Pipeline, err error) {
-	pipeline = make(Pipeline)
+
 	// Get flow to execute
 	flow, err := f.flowApi.GetFlowData(id, userId)
 
@@ -41,11 +41,13 @@ func (f FlowParser) ParseFlow(id string, userId string) (pipeline Pipeline, err 
 		return
 	}
 
+	pipeline = Pipeline{FlowId: flow.Id, Image: flow.Image, Operators: make(map[string]Operator)}
+
 	// Create basic operator list
 	for _, cell := range flow.Model.Cells {
 		if cell.Type == "senergy.NodeElement" {
 			var operator = Operator{cell.Id, cell.Name, cell.OperatorId, cell.DeploymentType, cell.Image, make(map[string]InputTopic)}
-			pipeline[cell.Id] = operator
+			pipeline.Operators[cell.Id] = operator
 		}
 	}
 
@@ -57,15 +59,15 @@ func (f FlowParser) ParseFlow(id string, userId string) (pipeline Pipeline, err 
 			var topic = InputTopic{}
 			var mapping = Mapping{link.Source.Port, link.Target.Port}
 
-			if len(pipeline[link.Target.Id].InputTopics[outputTopic].Mappings) < 1 {
+			if len(pipeline.Operators[link.Target.Id].InputTopics[outputTopic].Mappings) < 1 {
 				topic.FilterType = "OperatorId"
 				topic.FilterValue = link.Source.Id
 			} else {
-				topic = pipeline[link.Target.Id].InputTopics[outputTopic]
+				topic = pipeline.Operators[link.Target.Id].InputTopics[outputTopic]
 			}
 
 			topic.Mappings = append(topic.Mappings, mapping)
-			pipeline[link.Target.Id].InputTopics[outputTopic] = topic
+			pipeline.Operators[link.Target.Id].InputTopics[outputTopic] = topic
 		}
 	}
 

@@ -19,6 +19,7 @@ package flows_api
 type Flow struct {
 	Id    string `json:"_id,omitempty"`
 	Name  string `json:"name,omitempty"`
+	Image string `json:"image,omitempty"`
 	Model Model  `json:"model,omitempty"`
 }
 
