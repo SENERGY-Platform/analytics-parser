@@ -40,7 +40,13 @@ func (f FlowParser) ParseFlow(id string, userId string, authorization string) (p
 		return
 	}
 
-	pipeline = Pipeline{FlowId: flow.Id, Image: flow.Image, Operators: make(map[string]Operator)}
+	pipeline = f.CreatePipelineList(flow)
+
+	return
+}
+
+func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
+	pipeline := Pipeline{FlowId: flow.Id, Image: flow.Image, Operators: make(map[string]Operator)}
 
 	// Create basic operator list
 	for _, cell := range flow.Model.Cells {
@@ -56,8 +62,12 @@ func (f FlowParser) ParseFlow(id string, userId string, authorization string) (p
 			node, _ := getNodeById(flow.Model, link.Source.Id)
 			var outputTopic = getOperatorOutputTopic(node.Name)
 			var topic = InputTopic{}
-			var mapping = Mapping{link.Source.Port, link.Target.Port}
-
+			var mapping Mapping
+			if link.Source.Port[:4] == "out-" {
+				mapping = Mapping{link.Source.Port[4:], link.Target.Port[3:]}
+			} else {
+				mapping = Mapping{link.Source.Port, link.Target.Port}
+			}
 			if len(pipeline.Operators[link.Target.Id].InputTopics[outputTopic].Mappings) < 1 {
 				topic.FilterType = "OperatorId"
 				topic.FilterValue = link.Source.Id
@@ -69,8 +79,7 @@ func (f FlowParser) ParseFlow(id string, userId string, authorization string) (p
 			pipeline.Operators[link.Target.Id].InputTopics[outputTopic] = topic
 		}
 	}
-
-	return
+	return pipeline
 }
 
 func (f FlowParser) GetInputsAndConfig(id string, userId string, authorization string) ([]flows_api.Cell, error) {

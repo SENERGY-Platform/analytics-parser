@@ -1,0 +1,339 @@
+{
+  "name": "Testerererer",
+  "description": null,
+  "model": {
+    "cells": [
+      {
+        "type": "senergy.NodeElement",
+        "inPorts": [
+          "value",
+          "timestamp"
+        ],
+        "outPorts": [
+          "sum",
+          " lastTimestamp"
+        ],
+        "name": "adder",
+        "image": "image",
+        "operatorId": "5d2da1c0de2c3100015801f3",
+        "size": {
+          "width": 150,
+          "height": 100
+        },
+        "ports": {
+          "groups": {
+            "in": {
+              "position": {
+                "name": "left"
+              },
+              "attrs": {
+                "portLabel": {
+                  "fill": "#000"
+                },
+                "portBody": {
+                  "fill": "#fff",
+                  "stroke": "#000",
+                  "r": 10,
+                  "magnet": true
+                }
+              },
+              "label": {
+                "position": {
+                  "name": "left",
+                  "args": {
+                    "y": 10
+                  }
+                }
+              }
+            },
+            "out": {
+              "position": {
+                "name": "right"
+              },
+              "attrs": {
+                "portLabel": {
+                  "fill": "#000"
+                },
+                "portBody": {
+                  "fill": "#fff",
+                  "stroke": "#000",
+                  "r": 10,
+                  "magnet": true
+                }
+              },
+              "label": {
+                "position": {
+                  "name": "right",
+                  "args": {
+                    "y": 10
+                  }
+                }
+              }
+            }
+          },
+          "items": [
+            {
+              "id": "in-value",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "value"
+                }
+              }
+            },
+            {
+              "id": "in-timestamp",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "timestamp"
+                }
+              }
+            },
+            {
+              "id": "out-sum",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "sum"
+                }
+              }
+            },
+            {
+              "id": "out- lastTimestamp",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": " lastTimestamp"
+                }
+              }
+            }
+          ]
+        },
+        "position": {
+          "x": 220,
+          "y": 180
+        },
+        "angle": 0,
+        "config": null,
+        "id": "37eb2c6a-3879-4145-86c1-7d38fdd8b814",
+        "deploymentType": "cloud",
+        "z": 1,
+        "attrs": {
+          "body": {
+            "fill": "#4484ce",
+            "cursor": "default",
+            "visibility": "visible"
+          },
+          "label": {
+            "pointerEvents": "none",
+            "visibility": "visible",
+            "text": "adder"
+          },
+          "button": {
+            "event": "element:button:pointerdown",
+            "fill": "orange",
+            "stroke": "black",
+            "strokeWidth": 2
+          },
+          "buttonLabel": {
+            "text": "X",
+            "fill": "black",
+            "fontSize": 8,
+            "fontWeight": "bold"
+          }
+        }
+      },
+      {
+        "type": "senergy.NodeElement",
+        "inPorts": [
+          "value",
+          "timestamp"
+        ],
+        "outPorts": [
+          "sum",
+          " lastTimestamp"
+        ],
+        "name": "adder",
+        "image": "image",
+        "operatorId": "5d2da1c0de2c3100015801f3",
+        "size": {
+          "width": 150,
+          "height": 100
+        },
+        "ports": {
+          "groups": {
+            "in": {
+              "position": {
+                "name": "left"
+              },
+              "attrs": {
+                "portLabel": {
+                  "fill": "#000"
+                },
+                "portBody": {
+                  "fill": "#fff",
+                  "stroke": "#000",
+                  "r": 10,
+                  "magnet": true
+                }
+              },
+              "label": {
+                "position": {
+                  "name": "left",
+                  "args": {
+                    "y": 10
+                  }
+                }
+              }
+            },
+            "out": {
+              "position": {
+                "name": "right"
+              },
+              "attrs": {
+                "portLabel": {
+                  "fill": "#000"
+                },
+                "portBody": {
+                  "fill": "#fff",
+                  "stroke": "#000",
+                  "r": 10,
+                  "magnet": true
+                }
+              },
+              "label": {
+                "position": {
+                  "name": "right",
+                  "args": {
+                    "y": 10
+                  }
+                }
+              }
+            }
+          },
+          "items": [
+            {
+              "id": "in-value",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "value"
+                }
+              }
+            },
+            {
+              "id": "in-timestamp",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "timestamp"
+                }
+              }
+            },
+            {
+              "id": "out-sum",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "sum"
+                }
+              }
+            },
+            {
+              "id": "out- lastTimestamp",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": " lastTimestamp"
+                }
+              }
+            }
+          ]
+        },
+        "position": {
+          "x": 660,
+          "y": 280
+        },
+        "angle": 0,
+        "config": null,
+        "id": "22a28f5b-54d8-4e46-9ba9-c36dc6bd3da8",
+        "deploymentType": "cloud",
+        "z": 2,
+        "attrs": {
+          "body": {
+            "fill": "#4484ce",
+            "cursor": "default",
+            "visibility": "visible"
+          },
+          "label": {
+            "pointerEvents": "none",
+            "visibility": "visible",
+            "text": "adder"
+          },
+          "button": {
+            "event": "element:button:pointerdown",
+            "fill": "orange",
+            "stroke": "black",
+            "strokeWidth": 2
+          },
+          "buttonLabel": {
+            "text": "X",
+            "fill": "black",
+            "fontSize": 8,
+            "fontWeight": "bold"
+          }
+        }
+      },
+      {
+        "type": "link",
+        "source": {
+          "id": "37eb2c6a-3879-4145-86c1-7d38fdd8b814",
+          "magnet": "portBody",
+          "port": "out-sum"
+        },
+        "target": {
+          "id": "22a28f5b-54d8-4e46-9ba9-c36dc6bd3da8",
+          "magnet": "portBody",
+          "port": "in-value"
+        },
+        "id": "1c177af8-dabd-4f09-a2ae-4ac7482d1938",
+        "z": 3,
+        "attrs": {
+          "markerTarget": {
+            "d": "M 10 0 L 0 5 L 10 10 z"
+          }
+        }
+      },
+      {
+        "type": "link",
+        "source": {
+          "id": "37eb2c6a-3879-4145-86c1-7d38fdd8b814",
+          "magnet": "portBody",
+          "port": "out- lastTimestamp"
+        },
+        "target": {
+          "id": "22a28f5b-54d8-4e46-9ba9-c36dc6bd3da8",
+          "magnet": "portBody",
+          "port": "in-timestamp"
+        },
+        "id": "0c4c39dd-6d87-4226-9bfe-8520f10cfc67",
+        "z": 4,
+        "attrs": {
+          "markerTarget": {
+            "d": "M 10 0 L 0 5 L 10 10 z"
+          }
+        }
+      }
+    ]
+  },
+  "share": {
+    "list": null,
+    "read": null,
+    "write": null
+  },
+  "userId": "dd69ea0d-f553-4336-80f3-7f4567f85c7b",
+  "_id": "5ee0a2831b576d2534f04099",
+  "dateCreated": "2020-06-10T09:06:11.336047+00:00",
+  "dateUpdated": "2020-06-10T12:37:00.556793+00:00"
+}

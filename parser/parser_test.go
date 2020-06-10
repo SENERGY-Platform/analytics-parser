@@ -1,0 +1,74 @@
+/*
+ * Copyright 2020 InfAI (CC SES)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package parser
+
+import (
+	flows_api "analytics-parser/flows-api"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"os"
+	"reflect"
+	"testing"
+)
+
+func TestFlowParser_CreatePipelineList(t *testing.T) {
+	jsonFile, err := os.Open("parser_testdata/flow.json")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer jsonFile.Close()
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+	var flow flows_api.Flow
+	json.Unmarshal(byteValue, &flow)
+	parser := NewFlowParser(flows_api.NewFlowApi(
+		"",
+	))
+	expected := Pipeline{
+		FlowId: "5ee0a2831b576d2534f04099",
+		Operators: map[string]Operator{
+			"22a28f5b-54d8-4e46-9ba9-c36dc6bd3da8": {
+				Id:             "22a28f5b-54d8-4e46-9ba9-c36dc6bd3da8",
+				Name:           "adder",
+				OperatorId:     "5d2da1c0de2c3100015801f3",
+				DeploymentType: "cloud",
+				ImageId:        "image",
+				InputTopics: map[string]InputTopic{
+					"analytics-adder": {
+						FilterType:  "OperatorId",
+						FilterValue: "37eb2c6a-3879-4145-86c1-7d38fdd8b814",
+						Mappings: []Mapping{{"sum", "value"},
+							{" lastTimestamp", "timestamp"}},
+					},
+				},
+			},
+			"37eb2c6a-3879-4145-86c1-7d38fdd8b814": {
+				Id:             "37eb2c6a-3879-4145-86c1-7d38fdd8b814",
+				Name:           "adder",
+				OperatorId:     "5d2da1c0de2c3100015801f3",
+				DeploymentType: "cloud",
+				ImageId:        "image",
+				InputTopics:    map[string]InputTopic{},
+			},
+		},
+	}
+	if !reflect.DeepEqual(expected, parser.CreatePipelineList(flow)) {
+		fmt.Println(expected)
+		fmt.Println(parser.CreatePipelineList(flow))
+		t.Error("structs do not match")
+	}
+}

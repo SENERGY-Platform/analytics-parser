@@ -46,7 +46,11 @@ func (m *Model) GetEmptyNodeInputsAndConfigValues() (nodes []Cell) {
 	// Check if cell input ports have links
 	for _, cell := range m.Cells {
 		if cell.Type == "link" {
-			delete(cellList[cell.Target.Id], cell.Target.Port[3:])
+			if cell.Target.Port[:3] == "in-" {
+				delete(cellList[cell.Target.Id], cell.Target.Port[3:])
+			} else {
+				delete(cellList[cell.Target.Id], cell.Target.Port)
+			}
 		}
 	}
 
