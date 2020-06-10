@@ -21,5 +21,5 @@ import (
 )
 
 type FlowApiService interface {
-	GetFlowData(id string, userId string) (flows_api.Flow, error)
+	GetFlowData(id string, userId string, authorization string) (flows_api.Flow, error)
 }

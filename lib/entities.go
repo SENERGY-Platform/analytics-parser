@@ -19,3 +19,12 @@ package lib
 type Response struct {
 	Message string `json:"message,omitempty"`
 }
+
+type Claims struct {
+	Sub         string              `json:"sub,omitempty"`
+	RealmAccess map[string][]string `json:"realm_access,omitempty"`
+}
+
+func (c Claims) Valid() error {
+	return nil
+}

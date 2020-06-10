@@ -19,6 +19,7 @@ package parser
 import (
 	"analytics-parser/flows-api"
 	"analytics-parser/lib"
+	"log"
 
 	"github.com/pkg/errors"
 )
@@ -32,13 +33,13 @@ func NewFlowParser(flowApi lib.FlowApiService) *FlowParser {
 	return &FlowParser{flowApi}
 }
 
-func (f FlowParser) ParseFlow(id string, userId string) (pipeline Pipeline, err error) {
+func (f FlowParser) ParseFlow(id string, userId string, authorization string) (pipeline Pipeline, err error) {
 
 	// Get flow to execute
-	flow, err := f.flowApi.GetFlowData(id, userId)
+	flow, err := f.flowApi.GetFlowData(id, userId, authorization)
 
 	if err != nil {
-		return
+		log.Fatalln(err.Error())
 	}
 
 	pipeline = Pipeline{FlowId: flow.Id, Image: flow.Image, Operators: make(map[string]Operator)}
@@ -74,8 +75,8 @@ func (f FlowParser) ParseFlow(id string, userId string) (pipeline Pipeline, err 
 	return
 }
 
-func (f FlowParser) GetInputsAndConfig(id string, userId string) ([]flows_api.Cell, error) {
-	flow, err := f.flowApi.GetFlowData(id, userId)
+func (f FlowParser) GetInputsAndConfig(id string, userId string, authorization string) ([]flows_api.Cell, error) {
+	flow, err := f.flowApi.GetFlowData(id, userId, authorization)
 	return flow.Model.GetEmptyNodeInputsAndConfigValues(), err
 }
 

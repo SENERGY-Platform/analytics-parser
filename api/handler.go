@@ -17,16 +17,16 @@
 package api
 
 import (
-"fmt"
+	"analytics-parser/flows-api"
+	"analytics-parser/lib"
+	"fmt"
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 	"log"
 	"net/http"
-	"github.com/rs/cors"
-	"analytics-parser/lib"
-	"analytics-parser/flows-api"
 )
 
-func CreateServer(){
+func CreateServer() {
 	f := flows_api.NewFlowApi(
 		lib.GetEnv("FLOW_API_ENDPOINT", ""),
 	)
@@ -44,5 +44,5 @@ func CreateServer(){
 		AllowedMethods: []string{"GET", "POST", "DELETE", "OPTIONS"},
 	}).Handler(router)
 	logger := lib.NewLogger(handler, "CALL")
-	log.Fatal(http.ListenAndServe(":"+ port, logger))
+	log.Fatal(http.ListenAndServe(":"+port, logger))
 }

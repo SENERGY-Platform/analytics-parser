@@ -17,10 +17,11 @@
 package flows_api
 
 import (
-	"github.com/parnurzeal/gorequest"
 	"encoding/json"
 	"errors"
 	"log"
+
+	"github.com/parnurzeal/gorequest"
 )
 
 type FlowApi struct {
@@ -31,11 +32,16 @@ func NewFlowApi(url string) *FlowApi {
 	return &FlowApi{url}
 }
 
-func (f FlowApi) GetFlowData(id string, userId string) (flow Flow, err error) {
+func (f FlowApi) GetFlowData(id string, userId string, authorization string) (flow Flow, err error) {
 	request := gorequest.New()
-	resp, body, _ := request.Get(f.url+"/flow/" + id ).Set("X-UserID", userId).End()
+	if authorization == "" {
+		request.Get(f.url+"/flow/"+id).Set("X-UserID", userId).End()
+	} else {
+		request.Get(f.url+"/flow/"+id).Set("X-UserID", userId).Set("Authorization", authorization).End()
+	}
+	resp, body, _ := request.End()
 	if resp.StatusCode != 200 {
-		log.Fatal(resp.Status)
+		log.Println(resp.Status)
 		err = errors.New(resp.Status)
 		return
 	}

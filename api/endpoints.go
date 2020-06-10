@@ -17,22 +17,22 @@
 package api
 
 import (
-	"net/http"
-	"encoding/json"
 	"analytics-parser/lib"
-	"github.com/gorilla/mux"
 	"analytics-parser/parser"
-	"fmt"
+	"encoding/json"
+	"github.com/dgrijalva/jwt-go"
+	"github.com/gorilla/mux"
+	"net/http"
 )
 
 type Endpoint struct {
 	flowApiService lib.FlowApiService
-	flowParser *parser.FlowParser
+	flowParser     *parser.FlowParser
 }
 
-func NewEndpoint(flowApiService lib.FlowApiService) *Endpoint{
+func NewEndpoint(flowApiService lib.FlowApiService) *Endpoint {
 	ret := parser.NewFlowParser(flowApiService)
-	return &Endpoint{flowApiService ,ret}
+	return &Endpoint{flowApiService, ret}
 }
 
 func (e *Endpoint) getRootEndpoint(w http.ResponseWriter, req *http.Request) {
@@ -43,7 +43,7 @@ func (e *Endpoint) getRootEndpoint(w http.ResponseWriter, req *http.Request) {
 
 func (e *Endpoint) getParseFlow(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
-	ret, err := e.flowParser.ParseFlow(vars["id"], e.getUserId(req))
+	ret, err := e.flowParser.ParseFlow(vars["id"], e.getUserId(req), req.Header.Get("Authorization"))
 	w.Header().Set("Content-Type", "application/json")
 	if err != nil {
 		w.WriteHeader(500)
@@ -57,7 +57,7 @@ func (e *Endpoint) getParseFlow(w http.ResponseWriter, req *http.Request) {
 
 func (e *Endpoint) getGetInputs(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
-	ret, err := e.flowParser.GetInputsAndConfig(vars["id"], e.getUserId(req))
+	ret, err := e.flowParser.GetInputsAndConfig(vars["id"], e.getUserId(req), req.Header.Get("Authorization"))
 	w.Header().Set("Content-Type", "application/json")
 	if err != nil {
 		w.WriteHeader(500)
@@ -68,11 +68,21 @@ func (e *Endpoint) getGetInputs(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-func (e *Endpoint) getUserId(req *http.Request) (userId string){
-	userId = req.Header.Get("X-UserId")
-	if userId == "" {
-		userId = "admin"
+func (e *Endpoint) getUserId(req *http.Request) (userId string) {
+	//userId = req.Header.Get("X-UserId")
+	if req.Header.Get("X-UserId") == "" {
+		if userId == "" && req.Header.Get("Authorization") != "" {
+			_, claims := parseJWTToken(req.Header.Get("Authorization")[7:])
+			userId = claims.Sub
+			if userId == "" {
+				userId = "dummy"
+			}
+		}
 	}
-	fmt.Println("UserID: " + userId)
+	return
+}
+
+func parseJWTToken(encodedToken string) (token *jwt.Token, claims lib.Claims) {
+	token, _ = jwt.ParseWithClaims(encodedToken, &claims, nil)
 	return
 }
