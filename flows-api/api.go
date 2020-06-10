@@ -20,6 +20,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/parnurzeal/gorequest"
+	"log"
 )
 
 type FlowApi struct {
@@ -39,12 +40,14 @@ func (f FlowApi) GetFlowData(id string, userId string, authorization string) (fl
 	}
 	resp, body, _ := request.End()
 	if resp.StatusCode != 200 {
+		log.Println("GetFlowData: " + resp.Status + ": " + body)
 		err = errors.New(resp.Status)
 		return
 	}
 	err = json.Unmarshal([]byte(body), &flow)
 	if err != nil {
-		err = errors.New(resp.Status)
+		log.Println("GetFlowData: " + err.Error())
+		err = errors.New(err.Error())
 	}
 	return
 }
