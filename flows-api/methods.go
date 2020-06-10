@@ -16,7 +16,7 @@
 
 package flows_api
 
-func (m *Model) GetConnectorById(id int) () {
+func (m *Model) GetConnectorById(id int) {
 }
 
 func (m *Model) GetNodeById(id int) (cell Cell) {
@@ -28,17 +28,17 @@ func (m *Model) GetNodeIdByConnectorId(connectorId int) (id int) {
 }
 
 func (m *Model) GetEmptyNodeInputsAndConfigValues() (nodes []Cell) {
-	cellList := map[string]map[string] bool{}
+	cellList := map[string]map[string]bool{}
 
 	// Create cell list
 	for _, cell := range m.Cells {
 		if cell.Type == "senergy.NodeElement" {
-			cellList[cell.Id] = map[string] bool{}
+			cellList[cell.Id] = map[string]bool{}
 			for _, port := range cell.InPorts {
 				cellList[cell.Id][port] = false
 			}
 			if len(cell.Config) > 0 {
-				cellList[cell.Id] ["_config"] = true
+				cellList[cell.Id]["_config"] = true
 			}
 		}
 	}
@@ -46,7 +46,7 @@ func (m *Model) GetEmptyNodeInputsAndConfigValues() (nodes []Cell) {
 	// Check if cell input ports have links
 	for _, cell := range m.Cells {
 		if cell.Type == "link" {
-			delete(cellList[cell.Target.Id], cell.Target.Port)
+			delete(cellList[cell.Target.Id], cell.Target.Port[3:])
 		}
 	}
 
@@ -76,12 +76,12 @@ func (m *Model) GetEmptyNodeInputsAndConfigValues() (nodes []Cell) {
 }
 
 func (m *Model) GetEmptyNodeInputs() (unassignedNodes []Cell) {
-	cellList := map[string]map[string] bool{}
+	cellList := map[string]map[string]bool{}
 
 	// Create cell list
 	for _, cell := range m.Cells {
 		if cell.Type == "senergy.NodeElement" {
-			cellList[cell.Id] = map[string] bool{}
+			cellList[cell.Id] = map[string]bool{}
 			for _, port := range cell.InPorts {
 				cellList[cell.Id][port] = false
 			}
