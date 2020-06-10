@@ -17,10 +17,9 @@
 package main
 
 import (
-	"log"
-	"github.com/joho/godotenv"
-	"fmt"
 	"analytics-parser/api"
+	"github.com/joho/godotenv"
+	"log"
 )
 
 func main() {
@@ -28,6 +27,5 @@ func main() {
 	if err != nil {
 		log.Print("Error loading .env file")
 	}
-	fmt.Println("GO")
 	api.CreateServer()
 }

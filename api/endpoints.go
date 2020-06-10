@@ -22,6 +22,7 @@ import (
 	"encoding/json"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
+	"log"
 	"net/http"
 )
 
@@ -38,7 +39,7 @@ func NewEndpoint(flowApiService lib.FlowApiService) *Endpoint {
 func (e *Endpoint) getRootEndpoint(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
-	json.NewEncoder(w).Encode(lib.Response{"OK"})
+	_ = json.NewEncoder(w).Encode(lib.Response{Message: "OK"})
 }
 
 func (e *Endpoint) getParseFlow(w http.ResponseWriter, req *http.Request) {
@@ -46,11 +47,12 @@ func (e *Endpoint) getParseFlow(w http.ResponseWriter, req *http.Request) {
 	ret, err := e.flowParser.ParseFlow(vars["id"], e.getUserId(req), req.Header.Get("Authorization"))
 	w.Header().Set("Content-Type", "application/json")
 	if err != nil {
+		log.Println(err.Error())
 		w.WriteHeader(500)
-		json.NewEncoder(w).Encode(err)
+		_ = json.NewEncoder(w).Encode(lib.Response{Message: err.Error()})
 	} else {
 		w.WriteHeader(200)
-		json.NewEncoder(w).Encode(ret)
+		_ = json.NewEncoder(w).Encode(ret)
 	}
 	w.Header().Set("Content-Type", "application/json")
 }
@@ -60,11 +62,12 @@ func (e *Endpoint) getGetInputs(w http.ResponseWriter, req *http.Request) {
 	ret, err := e.flowParser.GetInputsAndConfig(vars["id"], e.getUserId(req), req.Header.Get("Authorization"))
 	w.Header().Set("Content-Type", "application/json")
 	if err != nil {
+		log.Println(err.Error())
 		w.WriteHeader(500)
-		json.NewEncoder(w).Encode(err)
+		_ = json.NewEncoder(w).Encode(lib.Response{Message: err.Error()})
 	} else {
 		w.WriteHeader(200)
-		json.NewEncoder(w).Encode(ret)
+		_ = json.NewEncoder(w).Encode(ret)
 	}
 }
 

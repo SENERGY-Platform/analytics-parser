@@ -19,8 +19,6 @@ package parser
 import (
 	"analytics-parser/flows-api"
 	"analytics-parser/lib"
-	"log"
-
 	"github.com/pkg/errors"
 )
 
@@ -39,7 +37,7 @@ func (f FlowParser) ParseFlow(id string, userId string, authorization string) (p
 	flow, err := f.flowApi.GetFlowData(id, userId, authorization)
 
 	if err != nil {
-		log.Fatalln(err.Error())
+		return
 	}
 
 	pipeline = Pipeline{FlowId: flow.Id, Image: flow.Image, Operators: make(map[string]Operator)}
