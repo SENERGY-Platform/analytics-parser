@@ -72,8 +72,8 @@ func (e *Endpoint) getGetInputs(w http.ResponseWriter, req *http.Request) {
 }
 
 func (e *Endpoint) getUserId(req *http.Request) (userId string) {
-	//userId = req.Header.Get("X-UserId")
-	if req.Header.Get("X-UserId") == "" {
+	userId = req.Header.Get("X-UserId")
+	if userId == "" {
 		if userId == "" && req.Header.Get("Authorization") != "" {
 			_, claims := parseJWTToken(req.Header.Get("Authorization")[7:])
 			userId = claims.Sub
