@@ -1,0 +1,178 @@
+{
+ "flowId": "5f0c57326244d82bf2f555dc",
+ "operators": {
+  "27d37f89-eba0-4717-b653-40a84c15dd46": {
+   "id": "27d37f89-eba0-4717-b653-40a84c15dd46",
+   "name": "merge-adder",
+   "operatorId": "5f0c5469c0ee610214d3b041",
+   "deploymentType": "cloud",
+   "ImageId": "fgseitsrancher.wifa.intern.uni-leipzig.de:5000/analytics-operator-merge-adder:prod",
+   "InputTopics": [
+    {
+     "TopicName": "analytics-adder",
+     "FilterType": "OperatorId",
+     "FilterValue": "eeb25535-a361-4904-b5c5-79f7cda50ef0",
+     "Mappings": [
+      {
+       "Source": "sum",
+       "Dest": "value1"
+      },
+      {
+       "Source": "lastTimestamp",
+       "Dest": "timestamp1"
+      }
+     ]
+    },
+    {
+     "TopicName": "analytics-adder",
+     "FilterType": "OperatorId",
+     "FilterValue": "b4ae4739-2137-4697-942a-244b65654072",
+     "Mappings": [
+      {
+       "Source": "sum",
+       "Dest": "value2"
+      },
+      {
+       "Source": "lastTimestamp",
+       "Dest": "timestamp2"
+      }
+     ]
+    }
+   ]
+  },
+  "452b9b7d-6142-4926-9c95-34b3952e0fd1": {
+   "id": "452b9b7d-6142-4926-9c95-34b3952e0fd1",
+   "name": "merge-adder",
+   "operatorId": "5f0c5469c0ee610214d3b041",
+   "deploymentType": "cloud",
+   "ImageId": "fgseitsrancher.wifa.intern.uni-leipzig.de:5000/analytics-operator-merge-adder:prod",
+   "InputTopics": [
+    {
+     "TopicName": "analytics-merge-adder",
+     "FilterType": "OperatorId",
+     "FilterValue": "27d37f89-eba0-4717-b653-40a84c15dd46",
+     "Mappings": [
+      {
+       "Source": "value",
+       "Dest": "value2"
+      },
+      {
+       "Source": "timestamp",
+       "Dest": "timestamp2"
+      }
+     ]
+    },
+    {
+     "TopicName": "analytics-merge-adder",
+     "FilterType": "OperatorId",
+     "FilterValue": "c3873ed3-e188-4941-ad68-e25480e2cf44",
+     "Mappings": [
+      {
+       "Source": "timestamp",
+       "Dest": "timestamp1"
+      },
+      {
+       "Source": "value",
+       "Dest": "value1"
+      }
+     ]
+    }
+   ]
+  },
+  "55461c35-5f6f-44c5-ac5a-ae7a4e22be9e": {
+   "id": "55461c35-5f6f-44c5-ac5a-ae7a4e22be9e",
+   "name": "estimator",
+   "operatorId": "5d91a35553a227ee830c737e",
+   "deploymentType": "cloud",
+   "ImageId": "fgseitsrancher.wifa.intern.uni-leipzig.de:5000/analytics-operator-estimator:dev",
+   "InputTopics": [
+    {
+     "TopicName": "analytics-merge-adder",
+     "FilterType": "OperatorId",
+     "FilterValue": "452b9b7d-6142-4926-9c95-34b3952e0fd1",
+     "Mappings": [
+      {
+       "Source": "value",
+       "Dest": "value"
+      },
+      {
+       "Source": "timestamp",
+       "Dest": "timestamp"
+      }
+     ]
+    }
+   ]
+  },
+  "59b0db84-5482-421b-8a34-db0aeacaaab2": {
+   "id": "59b0db84-5482-421b-8a34-db0aeacaaab2",
+   "name": "adder",
+   "operatorId": "5d91a1a253a227ee830c737a",
+   "deploymentType": "cloud",
+   "ImageId": "fgseitsrancher.wifa.intern.uni-leipzig.de:5000/analytics-operator-adder:dev",
+   "InputTopics": null
+  },
+  "b4ae4739-2137-4697-942a-244b65654072": {
+   "id": "b4ae4739-2137-4697-942a-244b65654072",
+   "name": "adder",
+   "operatorId": "5d91a1a253a227ee830c737a",
+   "deploymentType": "cloud",
+   "ImageId": "fgseitsrancher.wifa.intern.uni-leipzig.de:5000/analytics-operator-adder:dev",
+   "InputTopics": null
+  },
+  "c3873ed3-e188-4941-ad68-e25480e2cf44": {
+   "id": "c3873ed3-e188-4941-ad68-e25480e2cf44",
+   "name": "merge-adder",
+   "operatorId": "5f0c5469c0ee610214d3b041",
+   "deploymentType": "cloud",
+   "ImageId": "fgseitsrancher.wifa.intern.uni-leipzig.de:5000/analytics-operator-merge-adder:prod",
+   "InputTopics": [
+    {
+     "TopicName": "analytics-adder",
+     "FilterType": "OperatorId",
+     "FilterValue": "cece1553-282b-4160-93f2-8853bc4fd32b",
+     "Mappings": [
+      {
+       "Source": "lastTimestamp",
+       "Dest": "timestamp2"
+      },
+      {
+       "Source": "sum",
+       "Dest": "value2"
+      }
+     ]
+    },
+    {
+     "TopicName": "analytics-adder",
+     "FilterType": "OperatorId",
+     "FilterValue": "59b0db84-5482-421b-8a34-db0aeacaaab2",
+     "Mappings": [
+      {
+       "Source": "lastTimestamp",
+       "Dest": "timestamp1"
+      },
+      {
+       "Source": "sum",
+       "Dest": "value1"
+      }
+     ]
+    }
+   ]
+  },
+  "cece1553-282b-4160-93f2-8853bc4fd32b": {
+   "id": "cece1553-282b-4160-93f2-8853bc4fd32b",
+   "name": "adder",
+   "operatorId": "5d91a1a253a227ee830c737a",
+   "deploymentType": "cloud",
+   "ImageId": "fgseitsrancher.wifa.intern.uni-leipzig.de:5000/analytics-operator-adder:dev",
+   "InputTopics": null
+  },
+  "eeb25535-a361-4904-b5c5-79f7cda50ef0": {
+   "id": "eeb25535-a361-4904-b5c5-79f7cda50ef0",
+   "name": "adder",
+   "operatorId": "5d91a1a253a227ee830c737a",
+   "deploymentType": "cloud",
+   "ImageId": "fgseitsrancher.wifa.intern.uni-leipzig.de:5000/analytics-operator-adder:dev",
+   "InputTopics": null
+  }
+ }
+}

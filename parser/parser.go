@@ -51,32 +51,9 @@ func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
 	// Create basic operator list
 	for _, cell := range flow.Model.Cells {
 		if cell.Type == "senergy.NodeElement" {
-			var operator = Operator{cell.Id, cell.Name, cell.OperatorId, cell.DeploymentType, cell.Image, make(map[string]InputTopic)}
+			inputTopics := getInputTopics(flow, cell.Id)
+			var operator = Operator{cell.Id, cell.Name, cell.OperatorId, cell.DeploymentType, cell.Image, inputTopics}
 			pipeline.Operators[cell.Id] = operator
-		}
-	}
-
-	// Append input topics to operators
-	for _, link := range flow.Model.Cells {
-		if link.Type == "link" {
-			node, _ := getNodeById(flow.Model, link.Source.Id)
-			var outputTopic = getOperatorOutputTopic(node.Name)
-			var topic = InputTopic{}
-			var mapping Mapping
-			if link.Source.Port[:4] == "out-" {
-				mapping = Mapping{link.Source.Port[4:], link.Target.Port[3:]}
-			} else {
-				mapping = Mapping{link.Source.Port, link.Target.Port}
-			}
-			if len(pipeline.Operators[link.Target.Id].InputTopics[outputTopic].Mappings) < 1 {
-				topic.FilterType = "OperatorId"
-				topic.FilterValue = link.Source.Id
-			} else {
-				topic = pipeline.Operators[link.Target.Id].InputTopics[outputTopic]
-			}
-
-			topic.Mappings = append(topic.Mappings, mapping)
-			pipeline.Operators[link.Target.Id].InputTopics[outputTopic] = topic
 		}
 	}
 	return pipeline
@@ -85,6 +62,50 @@ func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
 func (f FlowParser) GetInputsAndConfig(id string, userId string, authorization string) ([]flows_api.Cell, error) {
 	flow, err := f.flowApi.GetFlowData(id, userId, authorization)
 	return flow.Model.GetEmptyNodeInputsAndConfigValues(), err
+}
+
+func getInputTopics(flow flows_api.Flow, cellId string) (inputTopics []InputTopic) {
+	for _, link := range flow.Model.Cells {
+		if link.Type == "link" && link.Target.Id == cellId {
+			// create mapping
+			var mapping Mapping
+			if link.Source.Port[:4] == "out-" {
+				mapping = Mapping{link.Source.Port[4:], link.Target.Port[3:]}
+			} else {
+				mapping = Mapping{link.Source.Port, link.Target.Port}
+			}
+			node, _ := getNodeById(flow.Model, link.Source.Id)
+			var outputTopic = getOperatorOutputTopic(node.Name)
+			topic := InputTopic{}
+			if !checkInputTopicExists(inputTopics, link.Source.Id) {
+				topic.TopicName = outputTopic
+				topic.FilterType = "OperatorId"
+				topic.FilterValue = link.Source.Id
+				topic.Mappings = append(topic.Mappings, mapping)
+				inputTopics = append(inputTopics, topic)
+			} else {
+				for key, existingTopic := range inputTopics {
+					if existingTopic.FilterValue == link.Source.Id {
+						existingTopic.Mappings = append(existingTopic.Mappings, mapping)
+						inputTopics[key] = existingTopic
+					}
+				}
+			}
+		}
+	}
+	return
+}
+
+func checkInputTopicExists(topics []InputTopic, topicId string) bool {
+	if len(topics) == 0 {
+		return false
+	}
+	for _, existingTopic := range topics {
+		if existingTopic.FilterValue == topicId {
+			return true
+		}
+	}
+	return false
 }
 
 func getOperatorOutputTopic(name string) (opName string) {

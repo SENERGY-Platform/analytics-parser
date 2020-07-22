@@ -28,10 +28,11 @@ type Operator struct {
 	OperatorId     string `json:"operatorId,omitempty"`
 	DeploymentType string `json:"deploymentType,omitempty"`
 	ImageId        string
-	InputTopics    map[string]InputTopic
+	InputTopics    []InputTopic
 }
 
 type InputTopic struct {
+	TopicName   string
 	FilterType  string
 	FilterValue string
 	Mappings    []Mapping

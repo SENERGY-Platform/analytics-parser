@@ -1,0 +1,1568 @@
+{
+  "name": "kombinierte Prognose",
+  "description": null,
+  "model": {
+    "cells": [
+      {
+        "type": "senergy.NodeElement",
+        "inPorts": [
+          "value",
+          "timestamp"
+        ],
+        "outPorts": [
+          "sum",
+          "lastTimestamp"
+        ],
+        "name": "adder",
+        "image": "fgseitsrancher.wifa.intern.uni-leipzig.de:5000/analytics-operator-adder:dev",
+        "operatorId": "5d91a1a253a227ee830c737a",
+        "size": {
+          "width": 150,
+          "height": 100
+        },
+        "ports": {
+          "groups": {
+            "in": {
+              "position": {
+                "name": "left"
+              },
+              "attrs": {
+                "portLabel": {
+                  "fill": "#000"
+                },
+                "portBody": {
+                  "fill": "#fff",
+                  "stroke": "#000",
+                  "r": 10,
+                  "magnet": true
+                }
+              },
+              "label": {
+                "position": {
+                  "name": "left",
+                  "args": {
+                    "y": 10
+                  }
+                }
+              }
+            },
+            "out": {
+              "position": {
+                "name": "right"
+              },
+              "attrs": {
+                "portLabel": {
+                  "fill": "#000"
+                },
+                "portBody": {
+                  "fill": "#fff",
+                  "stroke": "#000",
+                  "r": 10,
+                  "magnet": true
+                }
+              },
+              "label": {
+                "position": {
+                  "name": "right",
+                  "args": {
+                    "y": 10
+                  }
+                }
+              }
+            }
+          },
+          "items": [
+            {
+              "id": "in-value",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "value"
+                }
+              }
+            },
+            {
+              "id": "in-timestamp",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "timestamp"
+                }
+              }
+            },
+            {
+              "id": "out-sum",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "sum"
+                }
+              }
+            },
+            {
+              "id": "out-lastTimestamp",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "lastTimestamp"
+                }
+              }
+            }
+          ]
+        },
+        "position": {
+          "x": 150,
+          "y": 50
+        },
+        "angle": 0,
+        "config": null,
+        "id": "59b0db84-5482-421b-8a34-db0aeacaaab2",
+        "deploymentType": "cloud",
+        "z": 1,
+        "attrs": {
+          "body": {
+            "fill": "#4484ce",
+            "cursor": "default",
+            "visibility": "visible"
+          },
+          "label": {
+            "pointerEvents": "none",
+            "visibility": "visible",
+            "text": "adder"
+          },
+          "button": {
+            "event": "element:button:pointerdown",
+            "fill": "orange",
+            "stroke": "black",
+            "strokeWidth": 2
+          },
+          "buttonLabel": {
+            "text": "X",
+            "fill": "black",
+            "fontSize": 8,
+            "fontWeight": "bold"
+          }
+        }
+      },
+      {
+        "type": "senergy.NodeElement",
+        "inPorts": [
+          "value",
+          "timestamp"
+        ],
+        "outPorts": [
+          "sum",
+          "lastTimestamp"
+        ],
+        "name": "adder",
+        "image": "fgseitsrancher.wifa.intern.uni-leipzig.de:5000/analytics-operator-adder:dev",
+        "operatorId": "5d91a1a253a227ee830c737a",
+        "size": {
+          "width": 150,
+          "height": 100
+        },
+        "ports": {
+          "groups": {
+            "in": {
+              "position": {
+                "name": "left"
+              },
+              "attrs": {
+                "portLabel": {
+                  "fill": "#000"
+                },
+                "portBody": {
+                  "fill": "#fff",
+                  "stroke": "#000",
+                  "r": 10,
+                  "magnet": true
+                }
+              },
+              "label": {
+                "position": {
+                  "name": "left",
+                  "args": {
+                    "y": 10
+                  }
+                }
+              }
+            },
+            "out": {
+              "position": {
+                "name": "right"
+              },
+              "attrs": {
+                "portLabel": {
+                  "fill": "#000"
+                },
+                "portBody": {
+                  "fill": "#fff",
+                  "stroke": "#000",
+                  "r": 10,
+                  "magnet": true
+                }
+              },
+              "label": {
+                "position": {
+                  "name": "right",
+                  "args": {
+                    "y": 10
+                  }
+                }
+              }
+            }
+          },
+          "items": [
+            {
+              "id": "in-value",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "value"
+                }
+              }
+            },
+            {
+              "id": "in-timestamp",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "timestamp"
+                }
+              }
+            },
+            {
+              "id": "out-sum",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "sum"
+                }
+              }
+            },
+            {
+              "id": "out-lastTimestamp",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "lastTimestamp"
+                }
+              }
+            }
+          ]
+        },
+        "position": {
+          "x": 160,
+          "y": 240
+        },
+        "angle": 0,
+        "config": null,
+        "id": "cece1553-282b-4160-93f2-8853bc4fd32b",
+        "deploymentType": "cloud",
+        "z": 2,
+        "attrs": {
+          "body": {
+            "fill": "#4484ce",
+            "cursor": "default",
+            "visibility": "visible"
+          },
+          "label": {
+            "pointerEvents": "none",
+            "visibility": "visible",
+            "text": "adder"
+          },
+          "button": {
+            "event": "element:button:pointerdown",
+            "fill": "orange",
+            "stroke": "black",
+            "strokeWidth": 2
+          },
+          "buttonLabel": {
+            "text": "X",
+            "fill": "black",
+            "fontSize": 8,
+            "fontWeight": "bold"
+          }
+        }
+      },
+      {
+        "type": "senergy.NodeElement",
+        "inPorts": [
+          "value1",
+          "timestamp1",
+          "value2",
+          "timestamp2"
+        ],
+        "outPorts": [
+          "value",
+          "timestamp"
+        ],
+        "name": "merge-adder",
+        "image": "fgseitsrancher.wifa.intern.uni-leipzig.de:5000/analytics-operator-merge-adder:prod",
+        "operatorId": "5f0c5469c0ee610214d3b041",
+        "size": {
+          "width": 150,
+          "height": 100
+        },
+        "ports": {
+          "groups": {
+            "in": {
+              "position": {
+                "name": "left"
+              },
+              "attrs": {
+                "portLabel": {
+                  "fill": "#000"
+                },
+                "portBody": {
+                  "fill": "#fff",
+                  "stroke": "#000",
+                  "r": 10,
+                  "magnet": true
+                }
+              },
+              "label": {
+                "position": {
+                  "name": "left",
+                  "args": {
+                    "y": 10
+                  }
+                }
+              }
+            },
+            "out": {
+              "position": {
+                "name": "right"
+              },
+              "attrs": {
+                "portLabel": {
+                  "fill": "#000"
+                },
+                "portBody": {
+                  "fill": "#fff",
+                  "stroke": "#000",
+                  "r": 10,
+                  "magnet": true
+                }
+              },
+              "label": {
+                "position": {
+                  "name": "right",
+                  "args": {
+                    "y": 10
+                  }
+                }
+              }
+            }
+          },
+          "items": [
+            {
+              "id": "in-value1",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "value1"
+                }
+              }
+            },
+            {
+              "id": "in-timestamp1",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "timestamp1"
+                }
+              }
+            },
+            {
+              "id": "in-value2",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "value2"
+                }
+              }
+            },
+            {
+              "id": "in-timestamp2",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "timestamp2"
+                }
+              }
+            },
+            {
+              "id": "out-value",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "value"
+                }
+              }
+            },
+            {
+              "id": "out-timestamp",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "timestamp"
+                }
+              }
+            }
+          ]
+        },
+        "position": {
+          "x": 560,
+          "y": 140
+        },
+        "angle": 0,
+        "config": null,
+        "id": "c3873ed3-e188-4941-ad68-e25480e2cf44",
+        "deploymentType": "cloud",
+        "z": 3,
+        "attrs": {
+          "body": {
+            "fill": "#4484ce",
+            "cursor": "default",
+            "visibility": "visible"
+          },
+          "label": {
+            "pointerEvents": "none",
+            "visibility": "visible",
+            "text": "merge-adder"
+          },
+          "button": {
+            "event": "element:button:pointerdown",
+            "fill": "orange",
+            "stroke": "black",
+            "strokeWidth": 2
+          },
+          "buttonLabel": {
+            "text": "X",
+            "fill": "black",
+            "fontSize": 8,
+            "fontWeight": "bold"
+          }
+        }
+      },
+      {
+        "type": "link",
+        "source": {
+          "id": "cece1553-282b-4160-93f2-8853bc4fd32b",
+          "magnet": "portBody",
+          "port": "out-lastTimestamp"
+        },
+        "target": {
+          "id": "c3873ed3-e188-4941-ad68-e25480e2cf44",
+          "magnet": "portBody",
+          "port": "in-timestamp2"
+        },
+        "id": "143a3c01-95c0-4f46-8250-1da8e12f47bd",
+        "z": 4,
+        "attrs": {
+          "markerTarget": {
+            "d": "M 10 0 L 0 5 L 10 10 z"
+          }
+        }
+      },
+      {
+        "type": "link",
+        "source": {
+          "id": "cece1553-282b-4160-93f2-8853bc4fd32b",
+          "magnet": "portBody",
+          "port": "out-sum"
+        },
+        "target": {
+          "id": "c3873ed3-e188-4941-ad68-e25480e2cf44",
+          "magnet": "portBody",
+          "port": "in-value2"
+        },
+        "id": "11b13198-0586-44bc-ba66-8a77f2c5cb6a",
+        "z": 5,
+        "attrs": {
+          "markerTarget": {
+            "d": "M 10 0 L 0 5 L 10 10 z"
+          }
+        }
+      },
+      {
+        "type": "link",
+        "source": {
+          "id": "59b0db84-5482-421b-8a34-db0aeacaaab2",
+          "magnet": "portBody",
+          "port": "out-lastTimestamp"
+        },
+        "target": {
+          "id": "c3873ed3-e188-4941-ad68-e25480e2cf44",
+          "magnet": "portBody",
+          "port": "in-timestamp1"
+        },
+        "id": "d3efc694-6fd0-44b1-baaf-45d26e7f5404",
+        "z": 6,
+        "attrs": {
+          "markerTarget": {
+            "d": "M 10 0 L 0 5 L 10 10 z"
+          }
+        }
+      },
+      {
+        "type": "link",
+        "source": {
+          "id": "59b0db84-5482-421b-8a34-db0aeacaaab2",
+          "magnet": "portBody",
+          "port": "out-sum"
+        },
+        "target": {
+          "id": "c3873ed3-e188-4941-ad68-e25480e2cf44",
+          "magnet": "portBody",
+          "port": "in-value1"
+        },
+        "id": "85c441a4-592a-4a70-b822-5c931a376845",
+        "z": 7,
+        "attrs": {
+          "markerTarget": {
+            "d": "M 10 0 L 0 5 L 10 10 z"
+          }
+        }
+      },
+      {
+        "type": "senergy.NodeElement",
+        "inPorts": [
+          "timestamp",
+          "value"
+        ],
+        "outPorts": [
+          "DayTimestamp",
+          "MonthTimestamp",
+          "YearTimestamp",
+          "DayPrediction",
+          "MonthPrediction",
+          "YearPrediction",
+          "DayPredictionTotal",
+          "MonthPredictionTotal",
+          "YearPredictionTotal"
+        ],
+        "name": "estimator",
+        "image": "fgseitsrancher.wifa.intern.uni-leipzig.de:5000/analytics-operator-estimator:dev",
+        "operatorId": "5d91a35553a227ee830c737e",
+        "size": {
+          "width": 150,
+          "height": 100
+        },
+        "ports": {
+          "groups": {
+            "in": {
+              "position": {
+                "name": "left"
+              },
+              "attrs": {
+                "portLabel": {
+                  "fill": "#000"
+                },
+                "portBody": {
+                  "fill": "#fff",
+                  "stroke": "#000",
+                  "r": 10,
+                  "magnet": true
+                }
+              },
+              "label": {
+                "position": {
+                  "name": "left",
+                  "args": {
+                    "y": 10
+                  }
+                }
+              }
+            },
+            "out": {
+              "position": {
+                "name": "right"
+              },
+              "attrs": {
+                "portLabel": {
+                  "fill": "#000"
+                },
+                "portBody": {
+                  "fill": "#fff",
+                  "stroke": "#000",
+                  "r": 10,
+                  "magnet": true
+                }
+              },
+              "label": {
+                "position": {
+                  "name": "right",
+                  "args": {
+                    "y": 10
+                  }
+                }
+              }
+            }
+          },
+          "items": [
+            {
+              "id": "in-timestamp",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "timestamp"
+                }
+              }
+            },
+            {
+              "id": "in-value",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "value"
+                }
+              }
+            },
+            {
+              "id": "out-DayTimestamp",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "DayTimestamp"
+                }
+              }
+            },
+            {
+              "id": "out-MonthTimestamp",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "MonthTimestamp"
+                }
+              }
+            },
+            {
+              "id": "out-YearTimestamp",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "YearTimestamp"
+                }
+              }
+            },
+            {
+              "id": "out-DayPrediction",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "DayPrediction"
+                }
+              }
+            },
+            {
+              "id": "out-MonthPrediction",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "MonthPrediction"
+                }
+              }
+            },
+            {
+              "id": "out-YearPrediction",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "YearPrediction"
+                }
+              }
+            },
+            {
+              "id": "out-DayPredictionTotal",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "DayPredictionTotal"
+                }
+              }
+            },
+            {
+              "id": "out-MonthPredictionTotal",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "MonthPredictionTotal"
+                }
+              }
+            },
+            {
+              "id": "out-YearPredictionTotal",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "YearPredictionTotal"
+                }
+              }
+            }
+          ]
+        },
+        "position": {
+          "x": 1060,
+          "y": 300
+        },
+        "angle": 0,
+        "config": [
+          {
+            "name": "Algorithm",
+            "type": "string"
+          },
+          {
+            "name": "Timezone",
+            "type": "string"
+          },
+          {
+            "name": "ignoreValuesOlderThanMs",
+            "type": "string"
+          }
+        ],
+        "id": "55461c35-5f6f-44c5-ac5a-ae7a4e22be9e",
+        "deploymentType": "cloud",
+        "z": 8,
+        "attrs": {
+          "body": {
+            "fill": "#4484ce",
+            "cursor": "default",
+            "visibility": "visible"
+          },
+          "label": {
+            "pointerEvents": "none",
+            "visibility": "visible",
+            "text": "estimator"
+          },
+          "button": {
+            "event": "element:button:pointerdown",
+            "fill": "orange",
+            "stroke": "black",
+            "strokeWidth": 2
+          },
+          "buttonLabel": {
+            "text": "X",
+            "fill": "black",
+            "fontSize": 8,
+            "fontWeight": "bold"
+          }
+        }
+      },
+      {
+        "type": "senergy.NodeElement",
+        "inPorts": [
+          "value",
+          "timestamp"
+        ],
+        "outPorts": [
+          "sum",
+          "lastTimestamp"
+        ],
+        "name": "adder",
+        "image": "fgseitsrancher.wifa.intern.uni-leipzig.de:5000/analytics-operator-adder:dev",
+        "operatorId": "5d91a1a253a227ee830c737a",
+        "size": {
+          "width": 150,
+          "height": 100
+        },
+        "ports": {
+          "groups": {
+            "in": {
+              "position": {
+                "name": "left"
+              },
+              "attrs": {
+                "portLabel": {
+                  "fill": "#000"
+                },
+                "portBody": {
+                  "fill": "#fff",
+                  "stroke": "#000",
+                  "r": 10,
+                  "magnet": true
+                }
+              },
+              "label": {
+                "position": {
+                  "name": "left",
+                  "args": {
+                    "y": 10
+                  }
+                }
+              }
+            },
+            "out": {
+              "position": {
+                "name": "right"
+              },
+              "attrs": {
+                "portLabel": {
+                  "fill": "#000"
+                },
+                "portBody": {
+                  "fill": "#fff",
+                  "stroke": "#000",
+                  "r": 10,
+                  "magnet": true
+                }
+              },
+              "label": {
+                "position": {
+                  "name": "right",
+                  "args": {
+                    "y": 10
+                  }
+                }
+              }
+            }
+          },
+          "items": [
+            {
+              "id": "in-value",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "value"
+                }
+              }
+            },
+            {
+              "id": "in-timestamp",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "timestamp"
+                }
+              }
+            },
+            {
+              "id": "out-sum",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "sum"
+                }
+              }
+            },
+            {
+              "id": "out-lastTimestamp",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "lastTimestamp"
+                }
+              }
+            }
+          ]
+        },
+        "position": {
+          "x": 160,
+          "y": 420
+        },
+        "angle": 0,
+        "config": null,
+        "id": "eeb25535-a361-4904-b5c5-79f7cda50ef0",
+        "deploymentType": "cloud",
+        "z": 11,
+        "attrs": {
+          "body": {
+            "fill": "#4484ce",
+            "cursor": "default",
+            "visibility": "visible"
+          },
+          "label": {
+            "pointerEvents": "none",
+            "visibility": "visible",
+            "text": "adder"
+          },
+          "button": {
+            "event": "element:button:pointerdown",
+            "fill": "orange",
+            "stroke": "black",
+            "strokeWidth": 2
+          },
+          "buttonLabel": {
+            "text": "X",
+            "fill": "black",
+            "fontSize": 8,
+            "fontWeight": "bold"
+          }
+        }
+      },
+      {
+        "type": "senergy.NodeElement",
+        "inPorts": [
+          "value",
+          "timestamp"
+        ],
+        "outPorts": [
+          "sum",
+          "lastTimestamp"
+        ],
+        "name": "adder",
+        "image": "fgseitsrancher.wifa.intern.uni-leipzig.de:5000/analytics-operator-adder:dev",
+        "operatorId": "5d91a1a253a227ee830c737a",
+        "size": {
+          "width": 150,
+          "height": 100
+        },
+        "ports": {
+          "groups": {
+            "in": {
+              "position": {
+                "name": "left"
+              },
+              "attrs": {
+                "portLabel": {
+                  "fill": "#000"
+                },
+                "portBody": {
+                  "fill": "#fff",
+                  "stroke": "#000",
+                  "r": 10,
+                  "magnet": true
+                }
+              },
+              "label": {
+                "position": {
+                  "name": "left",
+                  "args": {
+                    "y": 10
+                  }
+                }
+              }
+            },
+            "out": {
+              "position": {
+                "name": "right"
+              },
+              "attrs": {
+                "portLabel": {
+                  "fill": "#000"
+                },
+                "portBody": {
+                  "fill": "#fff",
+                  "stroke": "#000",
+                  "r": 10,
+                  "magnet": true
+                }
+              },
+              "label": {
+                "position": {
+                  "name": "right",
+                  "args": {
+                    "y": 10
+                  }
+                }
+              }
+            }
+          },
+          "items": [
+            {
+              "id": "in-value",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "value"
+                }
+              }
+            },
+            {
+              "id": "in-timestamp",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "timestamp"
+                }
+              }
+            },
+            {
+              "id": "out-sum",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "sum"
+                }
+              }
+            },
+            {
+              "id": "out-lastTimestamp",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "lastTimestamp"
+                }
+              }
+            }
+          ]
+        },
+        "position": {
+          "x": 180,
+          "y": 580
+        },
+        "angle": 0,
+        "config": null,
+        "id": "b4ae4739-2137-4697-942a-244b65654072",
+        "deploymentType": "cloud",
+        "z": 12,
+        "attrs": {
+          "body": {
+            "fill": "#4484ce",
+            "cursor": "default",
+            "visibility": "visible"
+          },
+          "label": {
+            "pointerEvents": "none",
+            "visibility": "visible",
+            "text": "adder"
+          },
+          "button": {
+            "event": "element:button:pointerdown",
+            "fill": "orange",
+            "stroke": "black",
+            "strokeWidth": 2
+          },
+          "buttonLabel": {
+            "text": "X",
+            "fill": "black",
+            "fontSize": 8,
+            "fontWeight": "bold"
+          }
+        }
+      },
+      {
+        "type": "senergy.NodeElement",
+        "inPorts": [
+          "value1",
+          "timestamp1",
+          "value2",
+          "timestamp2"
+        ],
+        "outPorts": [
+          "value",
+          "timestamp"
+        ],
+        "name": "merge-adder",
+        "image": "fgseitsrancher.wifa.intern.uni-leipzig.de:5000/analytics-operator-merge-adder:prod",
+        "operatorId": "5f0c5469c0ee610214d3b041",
+        "size": {
+          "width": 150,
+          "height": 100
+        },
+        "ports": {
+          "groups": {
+            "in": {
+              "position": {
+                "name": "left"
+              },
+              "attrs": {
+                "portLabel": {
+                  "fill": "#000"
+                },
+                "portBody": {
+                  "fill": "#fff",
+                  "stroke": "#000",
+                  "r": 10,
+                  "magnet": true
+                }
+              },
+              "label": {
+                "position": {
+                  "name": "left",
+                  "args": {
+                    "y": 10
+                  }
+                }
+              }
+            },
+            "out": {
+              "position": {
+                "name": "right"
+              },
+              "attrs": {
+                "portLabel": {
+                  "fill": "#000"
+                },
+                "portBody": {
+                  "fill": "#fff",
+                  "stroke": "#000",
+                  "r": 10,
+                  "magnet": true
+                }
+              },
+              "label": {
+                "position": {
+                  "name": "right",
+                  "args": {
+                    "y": 10
+                  }
+                }
+              }
+            }
+          },
+          "items": [
+            {
+              "id": "in-value1",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "value1"
+                }
+              }
+            },
+            {
+              "id": "in-timestamp1",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "timestamp1"
+                }
+              }
+            },
+            {
+              "id": "in-value2",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "value2"
+                }
+              }
+            },
+            {
+              "id": "in-timestamp2",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "timestamp2"
+                }
+              }
+            },
+            {
+              "id": "out-value",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "value"
+                }
+              }
+            },
+            {
+              "id": "out-timestamp",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "timestamp"
+                }
+              }
+            }
+          ]
+        },
+        "position": {
+          "x": 520,
+          "y": 500
+        },
+        "angle": 0,
+        "config": null,
+        "id": "27d37f89-eba0-4717-b653-40a84c15dd46",
+        "deploymentType": "cloud",
+        "z": 13,
+        "attrs": {
+          "body": {
+            "fill": "#4484ce",
+            "cursor": "default",
+            "visibility": "visible"
+          },
+          "label": {
+            "pointerEvents": "none",
+            "visibility": "visible",
+            "text": "merge-adder"
+          },
+          "button": {
+            "event": "element:button:pointerdown",
+            "fill": "orange",
+            "stroke": "black",
+            "strokeWidth": 2
+          },
+          "buttonLabel": {
+            "text": "X",
+            "fill": "black",
+            "fontSize": 8,
+            "fontWeight": "bold"
+          }
+        }
+      },
+      {
+        "type": "link",
+        "source": {
+          "id": "eeb25535-a361-4904-b5c5-79f7cda50ef0",
+          "magnet": "portBody",
+          "port": "out-sum"
+        },
+        "target": {
+          "id": "27d37f89-eba0-4717-b653-40a84c15dd46",
+          "magnet": "portBody",
+          "port": "in-value1"
+        },
+        "id": "331db4be-be52-4f36-97f7-9183e98b4cfe",
+        "z": 14,
+        "attrs": {
+          "markerTarget": {
+            "d": "M 10 0 L 0 5 L 10 10 z"
+          }
+        }
+      },
+      {
+        "type": "link",
+        "source": {
+          "id": "eeb25535-a361-4904-b5c5-79f7cda50ef0",
+          "magnet": "portBody",
+          "port": "out-lastTimestamp"
+        },
+        "target": {
+          "id": "27d37f89-eba0-4717-b653-40a84c15dd46",
+          "magnet": "portBody",
+          "port": "in-timestamp1"
+        },
+        "id": "faee2810-a19a-42f3-8c99-c89922e337ce",
+        "z": 15,
+        "attrs": {
+          "markerTarget": {
+            "d": "M 10 0 L 0 5 L 10 10 z"
+          }
+        }
+      },
+      {
+        "type": "link",
+        "source": {
+          "id": "b4ae4739-2137-4697-942a-244b65654072",
+          "magnet": "portBody",
+          "port": "out-sum"
+        },
+        "target": {
+          "id": "27d37f89-eba0-4717-b653-40a84c15dd46",
+          "magnet": "portBody",
+          "port": "in-value2"
+        },
+        "id": "1b0c19dd-5dfe-4320-954a-d8cb843803cf",
+        "z": 16,
+        "attrs": {
+          "markerTarget": {
+            "d": "M 10 0 L 0 5 L 10 10 z"
+          }
+        }
+      },
+      {
+        "type": "link",
+        "source": {
+          "id": "b4ae4739-2137-4697-942a-244b65654072",
+          "magnet": "portBody",
+          "port": "out-lastTimestamp"
+        },
+        "target": {
+          "id": "27d37f89-eba0-4717-b653-40a84c15dd46",
+          "magnet": "portBody",
+          "port": "in-timestamp2"
+        },
+        "id": "9b629314-6cc3-478f-96a6-9bea7aa446c9",
+        "z": 17,
+        "attrs": {
+          "markerTarget": {
+            "d": "M 10 0 L 0 5 L 10 10 z"
+          }
+        }
+      },
+      {
+        "type": "senergy.NodeElement",
+        "inPorts": [
+          "value1",
+          "timestamp1",
+          "value2",
+          "timestamp2"
+        ],
+        "outPorts": [
+          "value",
+          "timestamp"
+        ],
+        "name": "merge-adder",
+        "image": "fgseitsrancher.wifa.intern.uni-leipzig.de:5000/analytics-operator-merge-adder:prod",
+        "operatorId": "5f0c5469c0ee610214d3b041",
+        "size": {
+          "width": 150,
+          "height": 100
+        },
+        "ports": {
+          "groups": {
+            "in": {
+              "position": {
+                "name": "left"
+              },
+              "attrs": {
+                "portLabel": {
+                  "fill": "#000"
+                },
+                "portBody": {
+                  "fill": "#fff",
+                  "stroke": "#000",
+                  "r": 10,
+                  "magnet": true
+                }
+              },
+              "label": {
+                "position": {
+                  "name": "left",
+                  "args": {
+                    "y": 10
+                  }
+                }
+              }
+            },
+            "out": {
+              "position": {
+                "name": "right"
+              },
+              "attrs": {
+                "portLabel": {
+                  "fill": "#000"
+                },
+                "portBody": {
+                  "fill": "#fff",
+                  "stroke": "#000",
+                  "r": 10,
+                  "magnet": true
+                }
+              },
+              "label": {
+                "position": {
+                  "name": "right",
+                  "args": {
+                    "y": 10
+                  }
+                }
+              }
+            }
+          },
+          "items": [
+            {
+              "id": "in-value1",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "value1"
+                }
+              }
+            },
+            {
+              "id": "in-timestamp1",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "timestamp1"
+                }
+              }
+            },
+            {
+              "id": "in-value2",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "value2"
+                }
+              }
+            },
+            {
+              "id": "in-timestamp2",
+              "group": "in",
+              "attrs": {
+                "portLabel": {
+                  "text": "timestamp2"
+                }
+              }
+            },
+            {
+              "id": "out-value",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "value"
+                }
+              }
+            },
+            {
+              "id": "out-timestamp",
+              "group": "out",
+              "attrs": {
+                "portLabel": {
+                  "text": "timestamp"
+                }
+              }
+            }
+          ]
+        },
+        "position": {
+          "x": 740,
+          "y": 300
+        },
+        "angle": 0,
+        "config": null,
+        "id": "452b9b7d-6142-4926-9c95-34b3952e0fd1",
+        "deploymentType": "cloud",
+        "z": 18,
+        "attrs": {
+          "body": {
+            "fill": "#4484ce",
+            "cursor": "default",
+            "visibility": "visible"
+          },
+          "label": {
+            "pointerEvents": "none",
+            "visibility": "visible",
+            "text": "merge-adder"
+          },
+          "button": {
+            "event": "element:button:pointerdown",
+            "fill": "orange",
+            "stroke": "black",
+            "strokeWidth": 2
+          },
+          "buttonLabel": {
+            "text": "X",
+            "fill": "black",
+            "fontSize": 8,
+            "fontWeight": "bold"
+          }
+        }
+      },
+      {
+        "type": "link",
+        "source": {
+          "id": "27d37f89-eba0-4717-b653-40a84c15dd46",
+          "magnet": "portBody",
+          "port": "out-value"
+        },
+        "target": {
+          "id": "452b9b7d-6142-4926-9c95-34b3952e0fd1",
+          "magnet": "portBody",
+          "port": "in-value2"
+        },
+        "id": "138dcf22-84d6-4ab9-b6ec-fcd77154ffd4",
+        "z": 19,
+        "attrs": {
+          "markerTarget": {
+            "d": "M 10 0 L 0 5 L 10 10 z"
+          }
+        }
+      },
+      {
+        "type": "link",
+        "source": {
+          "id": "27d37f89-eba0-4717-b653-40a84c15dd46",
+          "magnet": "portBody",
+          "port": "out-timestamp"
+        },
+        "target": {
+          "id": "452b9b7d-6142-4926-9c95-34b3952e0fd1",
+          "magnet": "portBody",
+          "port": "in-timestamp2"
+        },
+        "id": "c36d203b-21a1-4c69-b5bc-dff25c2c4dd7",
+        "z": 20,
+        "attrs": {
+          "markerTarget": {
+            "d": "M 10 0 L 0 5 L 10 10 z"
+          }
+        }
+      },
+      {
+        "type": "link",
+        "source": {
+          "id": "c3873ed3-e188-4941-ad68-e25480e2cf44",
+          "magnet": "portBody",
+          "port": "out-timestamp"
+        },
+        "target": {
+          "id": "452b9b7d-6142-4926-9c95-34b3952e0fd1",
+          "magnet": "portBody",
+          "port": "in-timestamp1"
+        },
+        "id": "e99f9d8e-7a9d-41b4-a9b6-5498e89ca108",
+        "z": 21,
+        "attrs": {
+          "markerTarget": {
+            "d": "M 10 0 L 0 5 L 10 10 z"
+          }
+        }
+      },
+      {
+        "type": "link",
+        "source": {
+          "id": "c3873ed3-e188-4941-ad68-e25480e2cf44",
+          "magnet": "portBody",
+          "port": "out-value"
+        },
+        "target": {
+          "id": "452b9b7d-6142-4926-9c95-34b3952e0fd1",
+          "magnet": "portBody",
+          "port": "in-value1"
+        },
+        "id": "31403d14-721f-45b1-9512-8a89b7984f09",
+        "z": 22,
+        "attrs": {
+          "markerTarget": {
+            "d": "M 10 0 L 0 5 L 10 10 z"
+          }
+        }
+      },
+      {
+        "type": "link",
+        "source": {
+          "id": "452b9b7d-6142-4926-9c95-34b3952e0fd1",
+          "magnet": "portBody",
+          "port": "out-value"
+        },
+        "target": {
+          "id": "55461c35-5f6f-44c5-ac5a-ae7a4e22be9e",
+          "magnet": "portBody",
+          "port": "in-value"
+        },
+        "id": "73c3f1fa-9bca-42e6-968c-dbcdd45e2eb0",
+        "z": 23,
+        "attrs": {
+          "markerTarget": {
+            "d": "M 10 0 L 0 5 L 10 10 z"
+          }
+        }
+      },
+      {
+        "type": "link",
+        "source": {
+          "id": "452b9b7d-6142-4926-9c95-34b3952e0fd1",
+          "magnet": "portBody",
+          "port": "out-timestamp"
+        },
+        "target": {
+          "id": "55461c35-5f6f-44c5-ac5a-ae7a4e22be9e",
+          "magnet": "portBody",
+          "port": "in-timestamp"
+        },
+        "id": "2ff60eb2-eece-4526-b676-8561370cd4fb",
+        "z": 24,
+        "attrs": {
+          "markerTarget": {
+            "d": "M 10 0 L 0 5 L 10 10 z"
+          }
+        }
+      }
+    ]
+  },
+  "share": {
+    "list": null,
+    "read": null,
+    "write": null
+  },
+  "userId": "8db5bb9f-c122-403a-a320-9fd94858c1a9",
+  "_id": "5f0c57326244d82bf2f555dc",
+  "dateCreated": "2020-07-13T12:44:34.041368+00:00",
+  "dateUpdated": "2020-07-21T13:25:31.204084+00:00"
+}

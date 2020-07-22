@@ -47,11 +47,13 @@ func TestFlowParser_CreatePipelineList(t *testing.T) {
 				OperatorId:     "5d2da1c0de2c3100015801f3",
 				DeploymentType: "cloud",
 				ImageId:        "image",
-				InputTopics: map[string]InputTopic{
-					"analytics-adder": {
+				InputTopics: []InputTopic{
+					{
+						TopicName:   "analytics-adder",
 						FilterType:  "OperatorId",
 						FilterValue: "37eb2c6a-3879-4145-86c1-7d38fdd8b814",
-						Mappings: []Mapping{{"sum", "value"},
+						Mappings: []Mapping{
+							{"sum", "value"},
 							{" lastTimestamp", "timestamp"}},
 					},
 				},
@@ -62,13 +64,45 @@ func TestFlowParser_CreatePipelineList(t *testing.T) {
 				OperatorId:     "5d2da1c0de2c3100015801f3",
 				DeploymentType: "cloud",
 				ImageId:        "image",
-				InputTopics:    map[string]InputTopic{},
+				InputTopics:    nil,
 			},
 		},
 	}
+	list := parser.CreatePipelineList(flow)
+	if !reflect.DeepEqual(expected, list) {
+		fmt.Println(expected)
+		fmt.Println(list)
+		file, _ := json.MarshalIndent(list, "", " ")
+		_ = ioutil.WriteFile("./parser_testdata/test.json", file, 0644)
+		t.Error("structs do not match")
+	}
+}
+
+func TestFlowParser_CreatePipelineList2(t *testing.T) {
+	jsonFile, err := os.Open("parser_testdata/flow2.json")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer jsonFile.Close()
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+	var flow flows_api.Flow
+	json.Unmarshal(byteValue, &flow)
+	parser := NewFlowParser(flows_api.NewFlowApi(
+		"",
+	))
+	jsonFileResult, err := os.Open("parser_testdata/flow2-result.json")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer jsonFileResult.Close()
+	byteValue, _ = ioutil.ReadAll(jsonFileResult)
+	var expected Pipeline
+	json.Unmarshal(byteValue, &expected)
 	if !reflect.DeepEqual(expected, parser.CreatePipelineList(flow)) {
 		fmt.Println(expected)
 		fmt.Println(parser.CreatePipelineList(flow))
+		file, _ := json.MarshalIndent(parser.CreatePipelineList(flow), "", " ")
+		_ = ioutil.WriteFile("./parser_testdata/test.json", file, 0644)
 		t.Error("structs do not match")
 	}
 }
