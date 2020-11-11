@@ -75,14 +75,15 @@ func getInputTopics(flow flows_api.Flow, cellId string) (inputTopics []InputTopi
 				mapping = Mapping{link.Source.Port, link.Target.Port}
 			}
 			node, _ := getNodeById(flow.Model, link.Source.Id)
-			local := false
-			if node.DeploymentType == "local" {
-				local = true
-			}
-			var outputTopic = getOperatorOutputTopic(node.Name, local)
 			topic := InputTopic{}
 			if !checkInputTopicExists(inputTopics, link.Source.Id) {
-				topic.TopicName = outputTopic
+				local := false
+				name := node.Name
+				if node.DeploymentType == "local" {
+					local = true
+					name = node.Name + "/" + link.Source.Id
+				}
+				topic.TopicName = getOperatorOutputTopic(name, local)
 				topic.FilterType = "OperatorId"
 				topic.FilterValue = link.Source.Id
 				topic.Mappings = append(topic.Mappings, mapping)
