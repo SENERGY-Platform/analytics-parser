@@ -75,7 +75,11 @@ func getInputTopics(flow flows_api.Flow, cellId string) (inputTopics []InputTopi
 				mapping = Mapping{link.Source.Port, link.Target.Port}
 			}
 			node, _ := getNodeById(flow.Model, link.Source.Id)
-			var outputTopic = getOperatorOutputTopic(node.Name)
+			local := false
+			if node.DeploymentType == "local" {
+				local = true
+			}
+			var outputTopic = getOperatorOutputTopic(node.Name, local)
 			topic := InputTopic{}
 			if !checkInputTopicExists(inputTopics, link.Source.Id) {
 				topic.TopicName = outputTopic
@@ -108,8 +112,11 @@ func checkInputTopicExists(topics []InputTopic, topicId string) bool {
 	return false
 }
 
-func getOperatorOutputTopic(name string) (opName string) {
+func getOperatorOutputTopic(name string, local bool) (opName string) {
 	opName = "analytics-" + name
+	if local {
+		opName = "fog/analytics/" + name
+	}
 	return
 }
 
