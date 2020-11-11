@@ -1,13 +1,19 @@
-FROM golang
+FROM golang:1.15 AS builder
 
-RUN go get -u github.com/golang/dep/cmd/dep
+COPY . /go/src/app
+WORKDIR /go/src/app
 
-COPY . /go/src/analytics-parser
-WORKDIR /go/src/analytics-parser
+ENV GO111MODULE=on
 
-RUN dep ensure
-RUN go build
+RUN CGO_ENABLED=0 go build -o app
+
+RUN git log -1 --oneline > version.txt
+
+FROM alpine:latest
+WORKDIR /root/
+COPY --from=builder /go/src/app/app .
+COPY --from=builder /go/src/app/version.txt .
 
 EXPOSE 5001
 
-CMD ./analytics-parser
+ENTRYPOINT ["./app"]
