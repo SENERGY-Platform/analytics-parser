@@ -61,6 +61,9 @@ func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
 
 func (f FlowParser) GetInputsAndConfig(id string, userId string, authorization string) ([]flows_api.Cell, error) {
 	flow, err := f.flowApi.GetFlowData(id, userId, authorization)
+	if err != nil {
+		return nil, err
+	}
 	return flow.Model.GetEmptyNodeInputsAndConfigValues(), err
 }
 
@@ -74,14 +77,15 @@ func getInputTopics(flow flows_api.Flow, cellId string) (inputTopics []InputTopi
 			} else {
 				mapping = Mapping{link.Source.Port, link.Target.Port}
 			}
-			node, _ := getNodeById(flow.Model, link.Source.Id)
+			sourceNode, _ := getNodeById(flow.Model, link.Source.Id)
+			targetNode, _ := getNodeById(flow.Model, link.Target.Id)
 			topic := InputTopic{}
 			if !checkInputTopicExists(inputTopics, link.Source.Id) {
 				local := false
-				name := node.Name
-				if node.DeploymentType == "local" {
+				name := sourceNode.Name
+				if targetNode.DeploymentType == "local" {
 					local = true
-					name = node.Name + "/" + link.Source.Id
+					name = sourceNode.Name + "/" + link.Source.Id
 				}
 				topic.TopicName = getOperatorOutputTopic(name, local)
 				topic.FilterType = "OperatorId"
