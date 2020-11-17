@@ -33,10 +33,10 @@ func NewFlowApi(url string) *FlowApi {
 
 func (f FlowApi) GetFlowData(id string, userId string, authorization string) (flow Flow, err error) {
 	request := gorequest.New()
-	if authorization == "" || userId != "" {
-		request.Get(f.url+"/flow/"+id).Set("X-UserID", userId).End()
+	if authorization == "" && userId != "" {
+		request.Get(f.url+"/flow/"+id).Set("X-UserID", userId)
 	} else {
-		request.Get(f.url+"/flow/"+id).Set("X-UserID", userId).Set("Authorization", authorization).End()
+		request.Get(f.url+"/flow/"+id).Set("Authorization", authorization)
 	}
 	resp, body, _ := request.End()
 	if resp.StatusCode != 200 {
