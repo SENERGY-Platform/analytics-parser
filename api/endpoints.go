@@ -20,7 +20,7 @@ import (
 	"analytics-parser/lib"
 	"analytics-parser/parser"
 	"encoding/json"
-	"github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
