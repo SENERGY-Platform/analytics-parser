@@ -13,5 +13,5 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/rs/cors v0.0.0-20170727213201-7af7a1e09ba3
 	github.com/smartystreets/goconvey v1.6.4 // indirect
-	golang.org/x/net v0.0.0-20190628185345-da137c7871d7 // indirect
+	golang.org/x/net v0.7.0 // indirect
 )
