@@ -46,10 +46,25 @@ func TestModel_GetEmptyNodeInputsAndConfigValues(t *testing.T) {
 		Image:          "image",
 		Config:         nil,
 		OperatorId:     "5d2da1c0de2c3100015801f3",
-	}}
+	},
+		{
+			Id:             "22a28f5b-54d8-4e46-9ba9-c36dc6bd3da8",
+			Name:           "adder",
+			DeploymentType: "cloud",
+			InPorts:        []string{},
+			OutPorts:       []string{"sum", " lastTimestamp"},
+			Type:           "senergy.NodeElement",
+			Source:         Port{},
+			Target:         Port{},
+			Image:          "image",
+			Config:         nil,
+			OperatorId:     "5d2da1c0de2c3100015801f3",
+		},
+	}
+
 	if !reflect.DeepEqual(expected, flow.Model.GetEmptyNodeInputsAndConfigValues()) {
-		fmt.Println(expected)
-		fmt.Println(flow.Model.GetEmptyNodeInputsAndConfigValues())
+		fmt.Printf("%#v", expected)
+		fmt.Printf("%#v", flow.Model.GetEmptyNodeInputsAndConfigValues())
 		t.Error("structs do not match")
 	}
 

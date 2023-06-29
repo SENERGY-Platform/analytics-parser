@@ -37,9 +37,7 @@ func (m *Model) GetEmptyNodeInputsAndConfigValues() (nodes []Cell) {
 			for _, port := range cell.InPorts {
 				cellList[cell.Id][port] = false
 			}
-			if len(cell.Config) > 0 {
-				cellList[cell.Id]["_config"] = true
-			}
+			cellList[cell.Id]["_config"] = true
 		}
 	}
 
