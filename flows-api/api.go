@@ -38,7 +38,12 @@ func (f FlowApi) GetFlowData(id string, userId string, authorization string) (fl
 	} else {
 		request.Get(f.url+"/flow/"+id).Set("Authorization", authorization)
 	}
-	resp, body, _ := request.End()
+	resp, body, errs := request.End()
+	if errs != nil {
+		err = errors.Join(errs...)
+		log.Println("GetFlowData: " + err.Error())
+		return
+	}
 	if resp.StatusCode != 200 {
 		log.Println("GetFlowData: " + resp.Status + ": " + body)
 		err = errors.New(resp.Status)
