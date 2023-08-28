@@ -39,6 +39,7 @@ type Cell struct {
 	Image          string        `json:"image,omitempty"`
 	Config         []ConfigValue `json:"config,omitempty"`
 	OperatorId     string        `json:"operatorId,omitempty"`
+	Cost           uint          `json:"cost"`
 }
 
 type Port struct {

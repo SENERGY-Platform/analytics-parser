@@ -52,7 +52,7 @@ func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
 	for _, cell := range flow.Model.Cells {
 		if cell.Type == "senergy.NodeElement" {
 			inputTopics := getInputTopics(flow, cell.Id)
-			var operator = Operator{cell.Id, cell.Name, cell.OperatorId, cell.DeploymentType, cell.Image, inputTopics}
+			var operator = Operator{cell.Id, cell.Name, cell.OperatorId, cell.DeploymentType, cell.Image, inputTopics, cell.Cost}
 			pipeline.Operators[cell.Id] = operator
 		}
 	}
