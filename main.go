@@ -17,7 +17,7 @@
 package main
 
 import (
-	"analytics-parser/api"
+	"github.com/SENERGY-Platform/analytics-parser/api"
 	"github.com/joho/godotenv"
 	"log"
 )

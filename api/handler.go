@@ -17,9 +17,9 @@
 package api
 
 import (
-	"analytics-parser/flows-api"
-	"analytics-parser/lib"
 	"fmt"
+	"github.com/SENERGY-Platform/analytics-parser/flows-api"
+	"github.com/SENERGY-Platform/analytics-parser/lib"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 	"log"

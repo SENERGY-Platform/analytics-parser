@@ -17,9 +17,9 @@
 package api
 
 import (
-	"analytics-parser/lib"
-	"analytics-parser/parser"
 	"encoding/json"
+	"github.com/SENERGY-Platform/analytics-parser/lib"
+	"github.com/SENERGY-Platform/analytics-parser/parser"
 	"github.com/golang-jwt/jwt"
 	"github.com/gorilla/mux"
 	"log"

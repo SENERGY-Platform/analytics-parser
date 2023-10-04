@@ -17,9 +17,9 @@
 package parser
 
 import (
-	flows_api "analytics-parser/flows-api"
 	"encoding/json"
 	"fmt"
+	flows_api "github.com/SENERGY-Platform/analytics-parser/flows-api"
 	"io/ioutil"
 	"os"
 	"reflect"

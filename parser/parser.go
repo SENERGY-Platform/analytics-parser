@@ -17,8 +17,8 @@
 package parser
 
 import (
-	"analytics-parser/flows-api"
-	"analytics-parser/lib"
+	"github.com/SENERGY-Platform/analytics-parser/flows-api"
+	"github.com/SENERGY-Platform/analytics-parser/lib"
 	"github.com/pkg/errors"
 )
 
