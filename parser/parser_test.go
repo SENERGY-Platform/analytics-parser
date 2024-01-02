@@ -99,8 +99,10 @@ func TestFlowParser_CreatePipelineList2(t *testing.T) {
 	var expected Pipeline
 	json.Unmarshal(byteValue, &expected)
 	if !reflect.DeepEqual(expected, parser.CreatePipelineList(flow)) {
-		fmt.Println(expected)
-		fmt.Println(parser.CreatePipelineList(flow))
+		fmt.Println("Expected:")
+		fmt.Printf("%+v\n", expected)
+		fmt.Println("Actual:")
+		fmt.Printf("%+v\n", parser.CreatePipelineList(flow))
 		file, _ := json.MarshalIndent(parser.CreatePipelineList(flow), "", " ")
 		_ = ioutil.WriteFile("./parser_testdata/test.json", file, 0644)
 		t.Error("structs do not match")
