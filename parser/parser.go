@@ -114,7 +114,7 @@ func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
 				upstreamConfig,
 				downstreamConfig,
 			}
-			log.Printf("%+v", operator)
+			log.Printf("%s will be deployed to %s - Cloud2Fog: %t Fog2Cloud: %t\n", operator.Id, operator.DeploymentType, downstreamConfig.Enabled, upstreamConfig.Enabled)
 			pipeline.Operators[cell.Id] = operator
 		}
 	}
@@ -134,7 +134,7 @@ func checkIfLocalOutputForwardedToPlatform(cells []flows_api.Cell, cellId string
 	// Check whether there exists at least one operator after this that is deployed on the cloud.
 	// Then the output of this operator will be forwarded to the platform where it can be accessed by the next operator.
 
-	fmt.Printf("%v", cells)
+	fmt.Printf("%+v", cells)
 	linksFromNode := getLinksFromSourceNode(cells, cellId)
 	for _, link := range linksFromNode {
 		targetNode, _ := getNodeById(cells, link.Target.Id)
