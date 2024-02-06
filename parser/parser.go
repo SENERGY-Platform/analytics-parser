@@ -58,8 +58,8 @@ func getLinksToTargetNode(flow flows_api.Flow, cellId string) (links []flows_api
 	return 
 } 
 
-func getLinksFromSourceNode(flow flows_api.Flow, cellId string) (links []flows_api.Cell) {
-	for _, link := range flow.Model.Cells {
+func getLinksFromSourceNode(cells []flows_api.Cell, cellId string) (links []flows_api.Cell) {
+	for _, link := range cells {
 		if link.Type == "link" && link.Source.Id == cellId {
 			links = append(links, link)
 		}
@@ -96,10 +96,10 @@ func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
 			var downstreamConfig DownstreamConfig
 			if deploymentType == deploymentLocationLib.Local {
 				log.Println("Check if local operator output of " + cell.Id + " shall be forwarded to cloud")
-				upstreamConfig.Enabled = checkIfLocalOutputForwardedToPlatform(flow, cell.Id)
+				upstreamConfig.Enabled = checkIfLocalOutputForwardedToPlatform(cells, cell.Id)
 			} else if deploymentType == deploymentLocationLib.Cloud {
 				log.Println("Check if cloud operator output of " + cell.Id + " shall be forwarded to fog")
-				downstreamConfig.Enabled = checkIfCloudOutputForwardedToFog(flow, cell.Id)
+				downstreamConfig.Enabled = checkIfCloudOutputForwardedToFog(cells, cell.Id)
 			}
 
 			var operator = Operator{
@@ -129,13 +129,13 @@ func (f FlowParser) GetInputsAndConfig(id string, userId string, authorization s
 	return flow.Model.GetEmptyNodeInputsAndConfigValues(), err
 }
 
-func checkIfLocalOutputForwardedToPlatform(flow flows_api.Flow, cellId string) bool {
+func checkIfLocalOutputForwardedToPlatform(cells []flows_api.Cell, cellId string) bool {
 	// Check whether there exists at least one operator after this that is deployed on the cloud.
 	// Then the output of this operator will be forwarded to the platform where it can be accessed by the next operator.
 
-	linksFromNode := getLinksFromSourceNode(flow, cellId)
+	linksFromNode := getLinksFromSourceNode(cells, cellId)
 	for _, link := range linksFromNode {
-		targetNode, _ := getNodeById(flow.Model, link.Target.Id)
+		targetNode, _ := getNodeById(cells, link.Target.Id)
 		if targetNode.DeploymentType == deploymentLocationLib.Cloud {
 			return true
 		}
@@ -143,13 +143,13 @@ func checkIfLocalOutputForwardedToPlatform(flow flows_api.Flow, cellId string) b
 	return false
 }
 
-func checkIfCloudOutputForwardedToFog(flow flows_api.Flow, cellId string) bool {
+func checkIfCloudOutputForwardedToFog(cells []flows_api.Cell, cellId string) bool {
 	// Check whether there exists at least one operator after this that is deployed on the fog.
 	// Then the output of this operator will be forwarded to fog where it can be accessed by the next operator.
 
-	linksFromNode := getLinksFromSourceNode(flow, cellId)
+	linksFromNode := getLinksFromSourceNode(cells, cellId)
 	for _, link := range linksFromNode {
-		targetNode, _ := getNodeById(flow.Model, link.Target.Id)
+		targetNode, _ := getNodeById(cells, link.Target.Id)
 		if targetNode.DeploymentType == deploymentLocationLib.Local {
 			return true
 		}
@@ -171,7 +171,7 @@ func getInputTopics(flow flows_api.Flow, cell flows_api.Cell) (inputTopics []Inp
 		} else {
 			mapping = Mapping{link.Source.Port, link.Target.Port}
 		}
-		sourceNode, _ := getNodeById(flow.Model, link.Source.Id)
+		sourceNode, _ := getNodeById(flow.Model.Cells, link.Source.Id)
 		topic := InputTopic{}
 		if !checkInputTopicExists(inputTopics, link.Source.Id) {
 			// TODO error handling
@@ -204,8 +204,8 @@ func checkInputTopicExists(topics []InputTopic, topicId string) bool {
 	return false
 }
 
-func getNodeById(model flows_api.Model, id string) (flows_api.Cell, error) {
-	for _, cell := range model.Cells {
+func getNodeById(cells []flows_api.Cell, id string) (flows_api.Cell, error) {
+	for _, cell := range cells {
 		if id == cell.Id {
 			return cell, nil
 		}
