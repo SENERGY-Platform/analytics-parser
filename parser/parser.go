@@ -67,18 +67,30 @@ func getLinksFromSourceNode(flow flows_api.Flow, cellId string) (links []flows_a
 	return 
 } 
 
+func (f FlowParser) DecideDeploymentPlatform(cells []flows_api.Cell) (newCells []flows_api.Cell) {
+	// atm run operator on cloud when it supports both
+	for _, cell := range cells {
+		if cell.Type == "senergy.NodeElement" {
+			deploymentType := cell.DeploymentType
+			if deploymentType == "" || deploymentType == "both" {
+				cell.DeploymentType = deploymentLocationLib.Cloud
+			}
+			newCells = append(newCells, cell)
+		}
+	}
+	return
+}
+
 func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
 	pipeline := Pipeline{FlowId: flow.Id, Image: flow.Image, Operators: make(map[string]Operator)}
 
 	// Create basic operator list
-	for _, cell := range flow.Model.Cells {
+	cells := f.DecideDeploymentPlatform(flow.Model.Cells)
+	for _, cell := range cells {
 		if cell.Type == "senergy.NodeElement" {
 			inputTopics := getInputTopics(flow, cell)
 
-			deploymentType := cell.DeploymentType
-			if deploymentType == "" || deploymentType == "both" {
-				deploymentType = deploymentLocationLib.Cloud
-			}
+			
 
 			var upstreamConfig UpstreamConfig
 			var downstreamConfig DownstreamConfig
