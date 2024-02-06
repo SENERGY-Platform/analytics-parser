@@ -90,7 +90,7 @@ func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
 		if cell.Type == "senergy.NodeElement" {
 			inputTopics := getInputTopics(flow, cell)
 
-			
+			deploymentType := cell.DeploymentType
 
 			var upstreamConfig UpstreamConfig
 			var downstreamConfig DownstreamConfig
