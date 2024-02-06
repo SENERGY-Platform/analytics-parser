@@ -17,7 +17,6 @@
 package parser
 
 import (
-	"fmt"
 	"log"
 
 	deploymentLocationLib "github.com/SENERGY-Platform/analytics-fog-lib/lib/location"
