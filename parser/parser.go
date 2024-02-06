@@ -76,7 +76,7 @@ func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
 			inputTopics := getInputTopics(flow, cell)
 
 			deploymentType := cell.DeploymentType
-			if deploymentType == "" {
+			if deploymentType == "" || deploymentType == "both" {
 				deploymentType = deploymentLocationLib.Cloud
 			}
 
