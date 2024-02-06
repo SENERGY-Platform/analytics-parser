@@ -76,8 +76,8 @@ func (f FlowParser) DecideDeploymentPlatform(cells []flows_api.Cell) (newCells [
 			if deploymentType == "" || deploymentType == "both" {
 				cell.DeploymentType = deploymentLocationLib.Cloud
 			}
-			newCells = append(newCells, cell)
 		}
+		newCells = append(newCells, cell)
 	}
 	return
 }
@@ -97,7 +97,6 @@ func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
 			var downstreamConfig DownstreamConfig
 			if deploymentType == deploymentLocationLib.Local {
 				log.Println("Check if local operator output of " + cell.Id + " shall be forwarded to cloud")
-				fmt.Println("TEST2")
 				upstreamConfig.Enabled = checkIfLocalOutputForwardedToPlatform(cells, cell.Id)
 			} else if deploymentType == deploymentLocationLib.Cloud {
 				log.Println("Check if cloud operator output of " + cell.Id + " shall be forwarded to fog")
@@ -134,8 +133,6 @@ func (f FlowParser) GetInputsAndConfig(id string, userId string, authorization s
 func checkIfLocalOutputForwardedToPlatform(cells []flows_api.Cell, cellId string) bool {
 	// Check whether there exists at least one operator after this that is deployed on the cloud.
 	// Then the output of this operator will be forwarded to the platform where it can be accessed by the next operator.
-	fmt.Println("TEST")
-	fmt.Printf("%+v", cells)
 	linksFromNode := getLinksFromSourceNode(cells, cellId)
 	for _, link := range linksFromNode {
 		targetNode, _ := getNodeById(cells, link.Target.Id)
