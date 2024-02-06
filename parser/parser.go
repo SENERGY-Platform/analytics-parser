@@ -75,12 +75,17 @@ func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
 		if cell.Type == "senergy.NodeElement" {
 			inputTopics := getInputTopics(flow, cell)
 
+			deploymentType := cell.DeploymentType
+			if deploymentType == "" {
+				deploymentType = deploymentLocationLib.Cloud
+			}
+
 			var upstreamConfig UpstreamConfig
 			var downstreamConfig DownstreamConfig
-			if cell.DeploymentType == deploymentLocationLib.Local {
+			if deploymentType == deploymentLocationLib.Local {
 				log.Println("Check if local operator output of " + cell.Id + " shall be forwarded to cloud")
 				upstreamConfig.Enabled = checkIfLocalOutputForwardedToPlatform(flow, cell.Id)
-			} else if cell.DeploymentType == deploymentLocationLib.Cloud {
+			} else if deploymentType == deploymentLocationLib.Cloud {
 				log.Println("Check if cloud operator output of " + cell.Id + " shall be forwarded to fog")
 				downstreamConfig.Enabled = checkIfCloudOutputForwardedToFog(flow, cell.Id)
 			}
@@ -89,7 +94,7 @@ func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
 				cell.Id, 
 				cell.Name, 
 				cell.OperatorId, 
-				cell.DeploymentType, 
+				deploymentType, 
 				cell.Image, 
 				inputTopics, 
 				cell.Cost,
