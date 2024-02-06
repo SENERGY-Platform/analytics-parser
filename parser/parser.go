@@ -17,13 +17,14 @@
 package parser
 
 import (
+	"fmt"
+	"log"
+
+	deploymentLocationLib "github.com/SENERGY-Platform/analytics-fog-lib/lib/location"
+	operatorLib "github.com/SENERGY-Platform/analytics-fog-lib/lib/operator"
 	"github.com/SENERGY-Platform/analytics-parser/flows-api"
 	"github.com/SENERGY-Platform/analytics-parser/lib"
 	"github.com/pkg/errors"
-	operatorLib "github.com/SENERGY-Platform/analytics-fog-lib/lib/operator"
-	deploymentLocationLib "github.com/SENERGY-Platform/analytics-fog-lib/lib/location"
-	"log"
-
 )
 
 type FlowParser struct {
@@ -133,6 +134,7 @@ func checkIfLocalOutputForwardedToPlatform(cells []flows_api.Cell, cellId string
 	// Check whether there exists at least one operator after this that is deployed on the cloud.
 	// Then the output of this operator will be forwarded to the platform where it can be accessed by the next operator.
 
+	fmt.Printf("%v", cells)
 	linksFromNode := getLinksFromSourceNode(cells, cellId)
 	for _, link := range linksFromNode {
 		targetNode, _ := getNodeById(cells, link.Target.Id)
