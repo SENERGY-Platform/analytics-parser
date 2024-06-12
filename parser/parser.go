@@ -174,7 +174,13 @@ func getInputTopics(flow flows_api.Flow, cell flows_api.Cell) (inputTopics []Inp
 		topic := InputTopic{}
 		if !checkInputTopicExists(inputTopics, link.Source.Id) {
 			// TODO error handling
-			topic.TopicName, _ = operatorLib.GenerateOperatorOutputTopic(sourceNode.Name, link.Source.Id, sourceNode.Id, cell.DeploymentType)
+			var topicName string
+			if cell.DeploymentType == deploymentLocationLib.Local {
+				topicName = operatorLib.GenerateFogOperatorTopic(sourceNode.Name, sourceNode.Id, "")
+			} else if cell.DeploymentType == deploymentLocationLib.Cloud {
+				topicName = operatorLib.GenerateCloudOperatorTopic(sourceNode.Name)
+			}
+			topic.TopicName = topicName
 			topic.FilterType = "OperatorId"
 			topic.FilterValue = link.Source.Id
 			topic.Mappings = append(topic.Mappings, mapping)
