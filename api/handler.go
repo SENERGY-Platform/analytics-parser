@@ -18,19 +18,20 @@ package api
 
 import (
 	"fmt"
+	"log"
+	"net/http"
+
 	"github.com/SENERGY-Platform/analytics-parser/flows-api"
 	"github.com/SENERGY-Platform/analytics-parser/lib"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
-	"log"
-	"net/http"
 )
 
 func CreateServer() {
 	f := flows_api.NewFlowApi(
 		lib.GetEnv("FLOW_API_ENDPOINT", ""),
 	)
-	port := lib.GetEnv("API_PORT", "8000")
+	port := lib.GetEnv("SERVER_API_PORT", "8000")
 	fmt.Print("Starting Server at port " + port + "\n")
 	router := mux.NewRouter()
 
