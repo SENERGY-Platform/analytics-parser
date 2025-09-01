@@ -1,4 +1,4 @@
-FROM golang:1.21 AS builder
+FROM golang:1.24 AS builder
 
 COPY . /go/src/app
 WORKDIR /go/src/app
@@ -14,6 +14,6 @@ WORKDIR /root/
 COPY --from=builder /go/src/app/app .
 COPY --from=builder /go/src/app/version.txt .
 
-EXPOSE 5001
+EXPOSE 8000
 
 ENTRYPOINT ["./app"]

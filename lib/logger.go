@@ -17,16 +17,23 @@
 package lib
 
 import (
-	"net/http"
-	"log"
 	"bytes"
+	"log"
+	"log/slog"
+	"net/http"
+	"os"
+	"runtime/debug"
+	"strings"
+	"time"
+
+	struct_logger "github.com/SENERGY-Platform/go-service-base/struct-logger"
 )
 
-func NewLogger(handler http.Handler, logLevel string) *LoggerMiddleWare{
-	return &LoggerMiddleWare{handler:handler, logLevel:logLevel}
+func NewLogger(handler http.Handler, logLevel string) *LoggerMiddleWare {
+	return &LoggerMiddleWare{handler: handler, logLevel: logLevel}
 }
 
-type LoggerMiddleWare struct{
+type LoggerMiddleWare struct {
 	handler  http.Handler
 	logLevel string `DEBUG | CALL | NONE`
 }
@@ -41,15 +48,15 @@ func (this *LoggerMiddleWare) ServeHTTP(w http.ResponseWriter, r *http.Request) 
 }
 
 func (this *LoggerMiddleWare) log(request *http.Request) {
-	if this.logLevel != "NONE"{
+	if this.logLevel != "NONE" {
 		method := request.Method
 		path := request.URL
 
-		if this.logLevel == "CALL"{
+		if this.logLevel == "CALL" {
 			log.Printf("[%v] %v \n", method, path)
 		}
 
-		if this.logLevel == "DEBUG"{
+		if this.logLevel == "DEBUG" {
 			buf := new(bytes.Buffer)
 			buf.ReadFrom(request.Body)
 			body := buf.String()
@@ -60,4 +67,33 @@ func (this *LoggerMiddleWare) log(request *http.Request) {
 		}
 
 	}
+}
+
+var logger *slog.Logger
+
+func GetLogger() *slog.Logger {
+	if logger == nil {
+		info, ok := debug.ReadBuildInfo()
+		project := ""
+		org := ""
+		if ok {
+			if parts := strings.Split(info.Main.Path, "/"); len(parts) > 2 {
+				project = strings.Join(parts[2:], "/")
+				org = strings.Join(parts[:2], "/")
+			}
+		}
+		logger = struct_logger.New(
+			struct_logger.Config{
+				Handler:    struct_logger.JsonHandlerSelector,
+				Level:      GetEnv("LOG_LEVEL", "info"),
+				TimeFormat: time.RFC3339Nano,
+				TimeUtc:    true,
+				AddMeta:    true,
+			},
+			os.Stdout,
+			org,
+			project,
+		)
+	}
+	return logger
 }

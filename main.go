@@ -18,14 +18,14 @@ package main
 
 import (
 	"github.com/SENERGY-Platform/analytics-parser/api"
+	"github.com/SENERGY-Platform/analytics-parser/lib"
 	"github.com/joho/godotenv"
-	"log"
 )
 
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Print("Error loading .env file")
+		lib.GetLogger().Debug("error loading .env file")
 	}
 	api.CreateServer()
 }

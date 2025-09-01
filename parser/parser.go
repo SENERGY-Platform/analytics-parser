@@ -17,7 +17,7 @@
 package parser
 
 import (
-	"log"
+	"fmt"
 
 	deploymentLocationLib "github.com/SENERGY-Platform/analytics-fog-lib/lib/location"
 	operatorLib "github.com/SENERGY-Platform/analytics-fog-lib/lib/operator"
@@ -55,8 +55,8 @@ func getLinksToTargetNode(flow flows_api.Flow, cellId string) (links []flows_api
 			links = append(links, link)
 		}
 	}
-	return 
-} 
+	return
+}
 
 func getLinksFromSourceNode(cells []flows_api.Cell, cellId string) (links []flows_api.Cell) {
 	for _, link := range cells {
@@ -64,8 +64,8 @@ func getLinksFromSourceNode(cells []flows_api.Cell, cellId string) (links []flow
 			links = append(links, link)
 		}
 	}
-	return 
-} 
+	return
+}
 
 func (f FlowParser) DecideDeploymentPlatform(cells []flows_api.Cell) (newCells []flows_api.Cell) {
 	// atm run operator on cloud when it supports both
@@ -95,25 +95,25 @@ func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
 			var upstreamConfig UpstreamConfig
 			var downstreamConfig DownstreamConfig
 			if deploymentType == deploymentLocationLib.Local {
-				log.Println("Check if local operator output of " + cell.Id + " shall be forwarded to cloud")
+				lib.GetLogger().Debug("check if local operator output of " + cell.Id + " shall be forwarded to cloud")
 				upstreamConfig.Enabled = checkIfLocalOutputForwardedToPlatform(cells, cell.Id)
 			} else if deploymentType == deploymentLocationLib.Cloud {
-				log.Println("Check if cloud operator output of " + cell.Id + " shall be forwarded to fog")
+				lib.GetLogger().Debug("check if cloud operator output of " + cell.Id + " shall be forwarded to fog")
 				downstreamConfig.Enabled = checkIfCloudOutputForwardedToFog(cells, cell.Id)
 			}
 
 			var operator = Operator{
-				cell.Id, 
-				cell.Name, 
-				cell.OperatorId, 
-				deploymentType, 
-				cell.Image, 
-				inputTopics, 
+				cell.Id,
+				cell.Name,
+				cell.OperatorId,
+				deploymentType,
+				cell.Image,
+				inputTopics,
 				cell.Cost,
 				upstreamConfig,
 				downstreamConfig,
 			}
-			log.Printf("%s will be deployed to %s - Cloud2Fog: %t Fog2Cloud: %t\n", operator.Id, operator.DeploymentType, downstreamConfig.Enabled, upstreamConfig.Enabled)
+			lib.GetLogger().Debug(fmt.Sprintf("%s will be deployed to %s - Cloud2Fog: %t Fog2Cloud: %t", operator.Id, operator.DeploymentType, downstreamConfig.Enabled, upstreamConfig.Enabled))
 			pipeline.Operators[cell.Id] = operator
 		}
 	}
@@ -194,7 +194,7 @@ func getInputTopics(flow flows_api.Flow, cell flows_api.Cell) (inputTopics []Inp
 			}
 		}
 	}
-	return 
+	return
 }
 
 func checkInputTopicExists(topics []InputTopic, topicId string) bool {

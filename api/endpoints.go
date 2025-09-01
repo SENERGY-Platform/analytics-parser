@@ -18,12 +18,12 @@ package api
 
 import (
 	"encoding/json"
+	"net/http"
+
 	"github.com/SENERGY-Platform/analytics-parser/lib"
 	"github.com/SENERGY-Platform/analytics-parser/parser"
 	"github.com/golang-jwt/jwt"
 	"github.com/gorilla/mux"
-	"log"
-	"net/http"
 )
 
 type Endpoint struct {
@@ -47,7 +47,7 @@ func (e *Endpoint) getParseFlow(w http.ResponseWriter, req *http.Request) {
 	ret, err := e.flowParser.ParseFlow(vars["id"], e.getUserId(req), req.Header.Get("Authorization"))
 	w.Header().Set("Content-Type", "application/json")
 	if err != nil {
-		log.Println(err.Error())
+		lib.GetLogger().Error("error parsing flow", "error", err)
 		w.WriteHeader(500)
 		_ = json.NewEncoder(w).Encode(lib.Response{Message: err.Error()})
 	} else {
@@ -62,7 +62,7 @@ func (e *Endpoint) getGetInputs(w http.ResponseWriter, req *http.Request) {
 	ret, err := e.flowParser.GetInputsAndConfig(vars["id"], e.getUserId(req), req.Header.Get("Authorization"))
 	w.Header().Set("Content-Type", "application/json")
 	if err != nil {
-		log.Println(err.Error())
+		lib.GetLogger().Error("error getting inputs", "error", err)
 		w.WriteHeader(500)
 		_ = json.NewEncoder(w).Encode(lib.Response{Message: err.Error()})
 	} else {
@@ -74,7 +74,7 @@ func (e *Endpoint) getGetInputs(w http.ResponseWriter, req *http.Request) {
 func (e *Endpoint) getUserId(req *http.Request) (userId string) {
 	userId = req.Header.Get("X-UserId")
 	if userId == "" {
-		if userId == "" && req.Header.Get("Authorization") != "" {
+		if req.Header.Get("Authorization") != "" {
 			_, claims := parseJWTToken(req.Header.Get("Authorization")[7:])
 			userId = claims.Sub
 			if userId == "" {

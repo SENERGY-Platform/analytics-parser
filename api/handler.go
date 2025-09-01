@@ -17,7 +17,6 @@
 package api
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -32,7 +31,7 @@ func CreateServer() {
 		lib.GetEnv("FLOW_API_ENDPOINT", ""),
 	)
 	port := lib.GetEnv("SERVER_API_PORT", "8000")
-	fmt.Print("Starting Server at port " + port + "\n")
+	lib.GetLogger().Info("starting server on port " + port)
 	router := mux.NewRouter()
 
 	e := NewEndpoint(f)
