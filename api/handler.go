@@ -79,7 +79,7 @@ func CreateServer() {
 		id := c.Param("id")
 		ret, err := serv.GetInputsAndConfig(id, getUserId(c), c.GetHeader("Authorization"))
 		if err != nil {
-			lib.GetLogger().Error("error getting inputs", "error", err)
+			lib.GetLogger().Error("error getting inputs for flow "+id, "error", err, "flow", id)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "something went wrong"})
 			return
 		}

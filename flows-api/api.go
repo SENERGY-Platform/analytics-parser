@@ -44,7 +44,7 @@ func (f FlowApi) GetFlowData(id string, userId string, authorization string) (fl
 		return
 	}
 	if resp.StatusCode != 200 {
-		err = errors.New(resp.Status)
+		err = errors.New("flow repo responded with wrong status: " + resp.Status)
 		return
 	}
 	err = json.Unmarshal([]byte(body), &flow)
