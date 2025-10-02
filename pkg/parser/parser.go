@@ -21,8 +21,8 @@ import (
 
 	deploymentLocationLib "github.com/SENERGY-Platform/analytics-fog-lib/lib/location"
 	operatorLib "github.com/SENERGY-Platform/analytics-fog-lib/lib/operator"
-	"github.com/SENERGY-Platform/analytics-parser/flows-api"
 	"github.com/SENERGY-Platform/analytics-parser/lib"
+	"github.com/SENERGY-Platform/analytics-parser/pkg/flows-api"
 	"github.com/pkg/errors"
 )
 

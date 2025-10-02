@@ -23,7 +23,7 @@ type Pipeline struct {
 }
 
 type UpstreamConfig struct {
-	Enabled bool 
+	Enabled bool
 }
 
 type DownstreamConfig struct {
@@ -31,14 +31,14 @@ type DownstreamConfig struct {
 }
 
 type Operator struct {
-	Id             string `json:"id,omitempty"`
-	Name           string `json:"name,omitempty"`
-	OperatorId     string `json:"operatorId,omitempty"`
-	DeploymentType string `json:"deploymentType,omitempty"`
-	ImageId        string
-	InputTopics    []InputTopic
-	Cost           uint `json:"cost"`
-	UpstreamConfig UpstreamConfig `json:"upstream"`
+	Id               string `json:"id,omitempty"`
+	Name             string `json:"name,omitempty"`
+	OperatorId       string `json:"operatorId,omitempty"`
+	DeploymentType   string `json:"deploymentType,omitempty"`
+	ImageId          string
+	InputTopics      []InputTopic
+	Cost             uint             `json:"cost"`
+	UpstreamConfig   UpstreamConfig   `json:"upstream"`
 	DownstreamConfig DownstreamConfig `json:"downstream"`
 }
 

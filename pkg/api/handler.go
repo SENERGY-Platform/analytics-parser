@@ -23,9 +23,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/SENERGY-Platform/analytics-parser/flows-api"
 	"github.com/SENERGY-Platform/analytics-parser/lib"
-	"github.com/SENERGY-Platform/analytics-parser/parser"
+	"github.com/SENERGY-Platform/analytics-parser/pkg/flows-api"
+	"github.com/SENERGY-Platform/analytics-parser/pkg/parser"
 	"github.com/SENERGY-Platform/service-commons/pkg/jwt"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
