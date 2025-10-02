@@ -16,14 +16,14 @@
 
 package flows_api
 
-func (m *Model) GetConnectorById(id int) {
+func (m *Model) GetConnectorById(_ int) {
 }
 
-func (m *Model) GetNodeById(id int) (cell Cell) {
+func (m *Model) GetNodeById(_ int) (cell Cell) {
 	return
 }
 
-func (m *Model) GetNodeIdByConnectorId(connectorId int) (id int) {
+func (m *Model) GetNodeIdByConnectorId(_ int) (id int) {
 	return
 }
 

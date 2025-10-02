@@ -19,11 +19,12 @@ package parser
 import (
 	"encoding/json"
 	"fmt"
-	flows_api "github.com/SENERGY-Platform/analytics-parser/flows-api"
 	"io/ioutil"
 	"os"
 	"reflect"
 	"testing"
+
+	flowsapi "github.com/SENERGY-Platform/analytics-parser/pkg/flows-api"
 )
 
 func TestFlowParser_CreatePipelineList(t *testing.T) {
@@ -33,9 +34,9 @@ func TestFlowParser_CreatePipelineList(t *testing.T) {
 	}
 	defer jsonFile.Close()
 	byteValue, _ := ioutil.ReadAll(jsonFile)
-	var flow flows_api.Flow
+	var flow flowsapi.Flow
 	json.Unmarshal(byteValue, &flow)
-	parser := NewFlowParser(flows_api.NewFlowApi(
+	parser := NewFlowParser(flowsapi.NewFlowApi(
 		"",
 	))
 	expected := Pipeline{
@@ -85,9 +86,9 @@ func TestFlowParser_CreatePipelineList2(t *testing.T) {
 	}
 	defer jsonFile.Close()
 	byteValue, _ := ioutil.ReadAll(jsonFile)
-	var flow flows_api.Flow
+	var flow flowsapi.Flow
 	json.Unmarshal(byteValue, &flow)
-	parser := NewFlowParser(flows_api.NewFlowApi(
+	parser := NewFlowParser(flowsapi.NewFlowApi(
 		"",
 	))
 	jsonFileResult, err := os.Open("parser_testdata/flow2-result.json")
