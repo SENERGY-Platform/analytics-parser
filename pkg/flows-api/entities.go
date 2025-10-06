@@ -16,38 +16,17 @@
 
 package flows_api
 
+import (
+	flowModels "github.com/SENERGY-Platform/analytics-flow-repo-v2/pkg/models"
+)
+
 type Flow struct {
-	Id    string `json:"_id,omitempty"`
-	Name  string `json:"name,omitempty"`
-	Image string `json:"image,omitempty"`
-	Model Model  `json:"model,omitempty"`
+	flowModels.Flow
+	Model Model `json:"model,omitempty"`
 }
 
 type Model struct {
 	Cells []Cell `json:"cells,omitempty"`
 }
 
-type Cell struct {
-	Id             string        `json:"id,omitempty"`
-	Name           string        `json:"name,omitempty"`
-	DeploymentType string        `json:"deploymentType,omitempty"`
-	InPorts        []string      `json:"inPorts,omitempty"`
-	OutPorts       []string      `json:"outPorts,omitempty"`
-	Type           string        `json:"type,omitempty"`
-	Source         Port          `json:"source,omitempty"`
-	Target         Port          `json:"target,omitempty"`
-	Image          string        `json:"image,omitempty"`
-	Config         []ConfigValue `json:"config,omitempty"`
-	OperatorId     string        `json:"operatorId,omitempty"`
-	Cost           uint          `json:"cost"`
-}
-
-type Port struct {
-	Id   string `json:"id,omitempty"`
-	Port string `json:"port,omitempty"`
-}
-
-type ConfigValue struct {
-	Name string `json:"name,omitempty"`
-	Type string `json:"type,omitempty"`
-}
+type Cell flowModels.Cell

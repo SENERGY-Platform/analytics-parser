@@ -72,8 +72,8 @@ func (f FlowParser) DecideDeploymentPlatform(cells []flows_api.Cell) (newCells [
 	for _, cell := range cells {
 		if cell.Type == "senergy.NodeElement" {
 			deploymentType := cell.DeploymentType
-			if deploymentType == "" || deploymentType == "both" {
-				cell.DeploymentType = deploymentLocationLib.Cloud
+			if *deploymentType == "" || *deploymentType == "both" {
+				*cell.DeploymentType = deploymentLocationLib.Cloud
 			}
 		}
 		newCells = append(newCells, cell)
@@ -82,7 +82,7 @@ func (f FlowParser) DecideDeploymentPlatform(cells []flows_api.Cell) (newCells [
 }
 
 func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
-	pipeline := Pipeline{FlowId: flow.Id, Image: flow.Image, Operators: make(map[string]Operator)}
+	pipeline := Pipeline{FlowId: flow.Id.String(), Image: *flow.Image, Operators: make(map[string]Operator)}
 
 	// Create basic operator list
 	cells := f.DecideDeploymentPlatform(flow.Model.Cells)
@@ -94,22 +94,22 @@ func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
 
 			var upstreamConfig UpstreamConfig
 			var downstreamConfig DownstreamConfig
-			if deploymentType == deploymentLocationLib.Local {
+			if *deploymentType == deploymentLocationLib.Local {
 				lib.GetLogger().Debug("check if local operator output of " + cell.Id + " shall be forwarded to cloud")
 				upstreamConfig.Enabled = checkIfLocalOutputForwardedToPlatform(cells, cell.Id)
-			} else if deploymentType == deploymentLocationLib.Cloud {
+			} else if *deploymentType == deploymentLocationLib.Cloud {
 				lib.GetLogger().Debug("check if cloud operator output of " + cell.Id + " shall be forwarded to fog")
 				downstreamConfig.Enabled = checkIfCloudOutputForwardedToFog(cells, cell.Id)
 			}
 
 			var operator = Operator{
 				cell.Id,
-				cell.Name,
-				cell.OperatorId,
-				deploymentType,
-				cell.Image,
+				*cell.Name,
+				*cell.OperatorId,
+				*deploymentType,
+				*cell.Image,
 				inputTopics,
-				cell.Cost,
+				uint(*cell.Cost),
 				upstreamConfig,
 				downstreamConfig,
 			}
@@ -135,7 +135,7 @@ func checkIfLocalOutputForwardedToPlatform(cells []flows_api.Cell, cellId string
 	linksFromNode := getLinksFromSourceNode(cells, cellId)
 	for _, link := range linksFromNode {
 		targetNode, _ := getNodeById(cells, link.Target.Id)
-		if targetNode.DeploymentType == deploymentLocationLib.Cloud {
+		if *targetNode.DeploymentType == deploymentLocationLib.Cloud {
 			return true
 		}
 	}
@@ -149,7 +149,7 @@ func checkIfCloudOutputForwardedToFog(cells []flows_api.Cell, cellId string) boo
 	linksFromNode := getLinksFromSourceNode(cells, cellId)
 	for _, link := range linksFromNode {
 		targetNode, _ := getNodeById(cells, link.Target.Id)
-		if targetNode.DeploymentType == deploymentLocationLib.Local {
+		if *targetNode.DeploymentType == deploymentLocationLib.Local {
 			return true
 		}
 	}
@@ -175,10 +175,10 @@ func getInputTopics(flow flows_api.Flow, cell flows_api.Cell) (inputTopics []Inp
 		if !checkInputTopicExists(inputTopics, link.Source.Id) {
 			// TODO error handling
 			var topicName string
-			if cell.DeploymentType == deploymentLocationLib.Local {
-				topicName = operatorLib.GenerateFogOperatorTopic(sourceNode.Name, sourceNode.Id, "")
-			} else if cell.DeploymentType == deploymentLocationLib.Cloud {
-				topicName = operatorLib.GenerateCloudOperatorTopic(sourceNode.Name)
+			if *cell.DeploymentType == deploymentLocationLib.Local {
+				topicName = operatorLib.GenerateFogOperatorTopic(*sourceNode.Name, sourceNode.Id, "")
+			} else if *cell.DeploymentType == deploymentLocationLib.Cloud {
+				topicName = operatorLib.GenerateCloudOperatorTopic(*sourceNode.Name)
 			}
 			topic.TopicName = topicName
 			topic.FilterType = "OperatorId"
