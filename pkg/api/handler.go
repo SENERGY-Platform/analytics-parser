@@ -19,106 +19,52 @@ package api
 import (
 	"errors"
 	"net/http"
-	"slices"
-	"strconv"
-	"strings"
+	"os"
 
-	"github.com/SENERGY-Platform/analytics-parser/lib"
-	"github.com/SENERGY-Platform/analytics-parser/pkg/flows-api"
 	"github.com/SENERGY-Platform/analytics-parser/pkg/parser"
-	"github.com/SENERGY-Platform/service-commons/pkg/jwt"
-	"github.com/gin-contrib/cors"
+	"github.com/SENERGY-Platform/analytics-parser/pkg/util"
 	"github.com/gin-gonic/gin"
 )
 
-func CreateServer() {
-	f := flows_api.NewFlowApi(
-		lib.GetEnv("FLOW_API_ENDPOINT", ""),
-	)
-	serv := parser.NewFlowParser(f)
-
-	port := lib.GetEnv("SERVER_API_PORT", "8000")
-
-	lib.GetLogger().Info("starting server on port " + port)
-	DEBUG, err := strconv.ParseBool(lib.GetEnv("DEBUG", "false"))
-	if err != nil {
-		lib.GetLogger().Error("Error loading debug value", "error", err)
-		DEBUG = false
-	}
-	if !DEBUG {
-		gin.SetMode(gin.ReleaseMode)
-	}
-	r := gin.Default()
-	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*"},
-		AllowMethods:     []string{"GET", "POST", "DELETE", "OPTIONS", "PUT"},
-		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
-		ExposeHeaders:    []string{"Content-Length"},
-		AllowCredentials: true,
-	}))
-	prefix := r.Group(lib.GetEnv("ROUTE_PREFIX", ""))
-
-	prefix.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "ok",
-		})
-	})
-
-	prefix.GET("/flow/:id", func(c *gin.Context) {
+func getFlow(flowParser parser.FlowParser) (string, string, gin.HandlerFunc) {
+	return http.MethodGet, FlowIdPath, func(c *gin.Context) {
 		id := c.Param("id")
-		ret, err := serv.ParseFlow(id, getUserId(c), c.GetHeader("Authorization"))
+		ret, err := flowParser.ParseFlow(id, c.GetString(UserIdKey), c.GetHeader("Authorization"))
 		if err != nil {
-			lib.GetLogger().Error("error parsing flow", "error", err)
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "something went wrong"})
+			util.Logger.Error("error parsing flow", "error", err, "method", "GET", "path", FlowIdPath)
+			_ = c.Error(errors.New(MessageSomethingWrong))
 			return
 		}
 		c.JSON(http.StatusOK, ret)
-	})
-
-	prefix.GET("/flow/getinputs/:id", func(c *gin.Context) {
-		id := c.Param("id")
-		ret, err := serv.GetInputsAndConfig(id, getUserId(c), c.GetHeader("Authorization"))
-		if err != nil {
-			lib.GetLogger().Error("error getting inputs for flow "+id, "error", err, "flow", id)
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "something went wrong"})
-			return
-		}
-		c.JSON(http.StatusOK, ret)
-	})
-
-	if !DEBUG {
-		err = r.Run(":" + port)
-	} else {
-		err = r.Run("127.0.0.1:" + port)
-	}
-	if err == nil {
-		lib.GetLogger().Error("could not start api server", "error", err)
 	}
 }
 
-func getUserId(c *gin.Context) (userId string) {
-	forUser := c.Query("for_user")
-	if forUser != "" {
-
-		roles := strings.Split(c.GetHeader("X-User-Roles"), ", ")
-		if slices.Contains[[]string](roles, "admin") {
-			return forUser
+func getFlowInputs(flowParser parser.FlowParser) (string, string, gin.HandlerFunc) {
+	return http.MethodGet, FlowInputsPath, func(c *gin.Context) {
+		id := c.Param("id")
+		ret, err := flowParser.GetInputsAndConfig(id, c.GetString(UserIdKey), c.GetHeader("Authorization"))
+		if err != nil {
+			util.Logger.Error("error getting inputs for flow "+id, "error", err, "method", "GET", "path", FlowInputsPath)
+			_ = c.Error(errors.New(MessageSomethingWrong))
+			return
 		}
+		c.JSON(http.StatusOK, ret)
 	}
+}
 
-	userId = c.GetHeader("X-UserId")
-	if userId == "" {
-		if c.GetHeader("Authorization") != "" {
-			claims, err := jwt.Parse(c.GetHeader("Authorization"))
-			if err != nil {
-				err = errors.New("Error parsing token: " + err.Error())
-				return
-			}
-			userId = claims.Sub
-			if userId == "" {
-				userId = "dummy"
-			}
-		}
+func getHealthCheckH(_ parser.FlowParser) (string, string, gin.HandlerFunc) {
+	return http.MethodGet, HealthCheckPath, func(c *gin.Context) {
+		c.Status(http.StatusOK)
 	}
-	return
+}
+
+func getSwaggerDocH(_ parser.FlowParser) (string, string, gin.HandlerFunc) {
+	return http.MethodGet, "/doc", func(gc *gin.Context) {
+		if _, err := os.Stat("docs/swagger.json"); err != nil {
+			_ = gc.Error(err)
+			return
+		}
+		gc.Header("Content-Type", gin.MIMEJSON)
+		gc.File("docs/swagger.json")
+	}
 }

@@ -17,15 +17,100 @@
 package main
 
 import (
-	"github.com/SENERGY-Platform/analytics-parser/lib"
+	"context"
+	"errors"
+	"fmt"
+	"net/http"
+	"os"
+	"strconv"
+	"sync"
+	"syscall"
+	"time"
+
 	"github.com/SENERGY-Platform/analytics-parser/pkg/api"
-	"github.com/joho/godotenv"
+	"github.com/SENERGY-Platform/analytics-parser/pkg/config"
+	"github.com/SENERGY-Platform/analytics-parser/pkg/util"
+	srv_info_hdl "github.com/SENERGY-Platform/go-service-base/srv-info-hdl"
+	"github.com/SENERGY-Platform/go-service-base/struct-logger/attributes"
+	sb_util "github.com/SENERGY-Platform/go-service-base/util"
 )
 
+var Version = "0.0.12"
+
 func main() {
-	err := godotenv.Load()
+	ec := 0
+	defer func() {
+		os.Exit(ec)
+	}()
+
+	srvInfoHdl := srv_info_hdl.New("analytics-parser", Version)
+
+	config.ParseFlags()
+
+	cfg, err := config.New(config.ConfPath)
 	if err != nil {
-		lib.GetLogger().Debug("error loading .env file")
+		_, _ = fmt.Fprintln(os.Stderr, err)
+		ec = 1
+		return
 	}
-	api.CreateServer()
+
+	util.InitStructLogger(cfg.Logger.Level)
+
+	util.Logger.Info(srvInfoHdl.Name(), "version", srvInfoHdl.Version())
+	util.Logger.Info("config: " + sb_util.ToJsonStr(cfg))
+
+	httpHandler, err := api.CreateServer(cfg)
+	if err != nil {
+		util.Logger.Error("error creating http engine", "error", err)
+		ec = 1
+		return
+	}
+
+	bindAddress := ":" + strconv.FormatInt(int64(cfg.ServerPort), 10)
+
+	if cfg.Debug {
+		bindAddress = "127.0.0.1:" + strconv.FormatInt(int64(cfg.ServerPort), 10)
+	}
+
+	httpServer := &http.Server{
+		Addr:    bindAddress,
+		Handler: httpHandler}
+
+	ctx, cf := context.WithCancel(context.Background())
+
+	go func() {
+		util.Wait(ctx, util.Logger, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
+		cf()
+	}()
+
+	wg := &sync.WaitGroup{}
+
+	wg.Add(1)
+
+	go func() {
+		defer wg.Done()
+		util.Logger.Info("starting http server")
+		if err = httpServer.ListenAndServe(); !errors.Is(err, http.ErrServerClosed) {
+			util.Logger.Error("starting server failed", attributes.ErrorKey, err)
+			ec = 1
+		}
+		cf()
+	}()
+
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		<-ctx.Done()
+		util.Logger.Info("stopping http server")
+		ctxWt, cf2 := context.WithTimeout(context.Background(), time.Second*5)
+		defer cf2()
+		if err := httpServer.Shutdown(ctxWt); err != nil {
+			util.Logger.Error("stopping server failed", attributes.ErrorKey, err)
+			ec = 1
+		} else {
+			util.Logger.Info("http server stopped")
+		}
+	}()
+
+	wg.Wait()
 }

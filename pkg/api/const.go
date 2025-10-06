@@ -1,11 +1,11 @@
 /*
- * Copyright 2018 InfAI (CC SES)
+ * Copyright 2025 InfAI (CC SES)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,16 +14,20 @@
  * limitations under the License.
  */
 
-package lib
+package api
 
-import (
-	"os"
+const (
+	HeaderRequestID = "X-Request-ID"
+	UserIdKey       = "UserId"
 )
 
-func GetEnv(key, fallback string) string {
-	value := os.Getenv(key)
-	if len(value) == 0 {
-		return fallback
-	}
-	return value
-}
+const (
+	HealthCheckPath = "/health-check"
+	FlowIdPath      = "/flow/:id"
+	FlowInputsPath  = "/flow/getinputs/:id"
+)
+
+const (
+	MessageSomethingWrong = "something went wrong"
+	MessageParseError     = "failed to parse request"
+)

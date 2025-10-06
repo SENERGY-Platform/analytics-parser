@@ -1,11 +1,11 @@
 /*
- * Copyright 2018 InfAI (CC SES)
+ * Copyright 2025 InfAI (CC SES)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,17 +14,14 @@
  * limitations under the License.
  */
 
-package lib
+package api
 
-type Response struct {
-	Message string `json:"message,omitempty"`
-}
+import (
+	"github.com/SENERGY-Platform/analytics-parser/pkg/parser"
+	gin_mw "github.com/SENERGY-Platform/gin-middleware"
+)
 
-type Claims struct {
-	Sub         string              `json:"sub,omitempty"`
-	RealmAccess map[string][]string `json:"realm_access,omitempty"`
-}
-
-func (c Claims) Valid() error {
-	return nil
+var routesAuth = gin_mw.Routes[parser.FlowParser]{
+	getFlow,
+	getFlowInputs,
 }

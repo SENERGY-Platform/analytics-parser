@@ -23,6 +23,7 @@ import (
 	operatorLib "github.com/SENERGY-Platform/analytics-fog-lib/lib/operator"
 	"github.com/SENERGY-Platform/analytics-parser/lib"
 	"github.com/SENERGY-Platform/analytics-parser/pkg/flows-api"
+	"github.com/SENERGY-Platform/analytics-parser/pkg/util"
 	"github.com/pkg/errors"
 )
 
@@ -95,10 +96,10 @@ func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
 			var upstreamConfig UpstreamConfig
 			var downstreamConfig DownstreamConfig
 			if *deploymentType == deploymentLocationLib.Local {
-				lib.GetLogger().Debug("check if local operator output of " + cell.Id + " shall be forwarded to cloud")
+				util.Logger.Debug("check if local operator output of " + cell.Id + " shall be forwarded to cloud")
 				upstreamConfig.Enabled = checkIfLocalOutputForwardedToPlatform(cells, cell.Id)
 			} else if *deploymentType == deploymentLocationLib.Cloud {
-				lib.GetLogger().Debug("check if cloud operator output of " + cell.Id + " shall be forwarded to fog")
+				util.Logger.Debug("check if cloud operator output of " + cell.Id + " shall be forwarded to fog")
 				downstreamConfig.Enabled = checkIfCloudOutputForwardedToFog(cells, cell.Id)
 			}
 
@@ -113,7 +114,7 @@ func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
 				upstreamConfig,
 				downstreamConfig,
 			}
-			lib.GetLogger().Debug(fmt.Sprintf("%s will be deployed to %s - Cloud2Fog: %t Fog2Cloud: %t", operator.Id, operator.DeploymentType, downstreamConfig.Enabled, upstreamConfig.Enabled))
+			util.Logger.Debug(fmt.Sprintf("%s will be deployed to %s - Cloud2Fog: %t Fog2Cloud: %t", operator.Id, operator.DeploymentType, downstreamConfig.Enabled, upstreamConfig.Enabled))
 			pipeline.Operators[cell.Id] = operator
 		}
 	}
