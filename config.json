@@ -2,5 +2,6 @@
   "debug": true,
   "logger": {
     "level": "debug"
-  }
+  },
+  "flow_api_endpoint": "https://api.senergy.infai.org/analytics/flow-repo/v2"
 }

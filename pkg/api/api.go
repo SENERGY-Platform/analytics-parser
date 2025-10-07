@@ -35,6 +35,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// CreateServer creates an API server with the given configuration.
+// It sets up the necessary middleware and routes.
+// @title Analytics-Parser API
+// @version 0.0.12
+// @description For the parsing of analytics flows.
+// @license.name Apache-2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+// @BasePath /
 func CreateServer(cfg *config.Config) (r *gin.Engine, err error) {
 	f := flows_api.NewFlowApi(
 		cfg.FlowApiEndpoint,
@@ -67,6 +75,9 @@ func CreateServer(cfg *config.Config) (r *gin.Engine, err error) {
 	)
 	middleware = append(middleware,
 		requestid.New(requestid.WithCustomHeaderStrKey(HeaderRequestID)),
+		gin_mw.ErrorHandler(func(err error) int {
+			return 0
+		}, ", "),
 		gin_mw.StructRecoveryHandler(util.Logger, gin_mw.DefaultRecoveryFunc),
 	)
 	r.Use(middleware...)

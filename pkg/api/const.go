@@ -29,5 +29,4 @@ const (
 
 const (
 	MessageSomethingWrong = "something went wrong"
-	MessageParseError     = "failed to parse request"
 )

@@ -26,6 +26,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// getFlow returns a gin.HandlerFunc which handles GET requests to /flow/:id.
+// This function calls the ParseFlow method of the given parser.FlowParser with the id from the request path,
+// the user id from the request header, and the authorization token from the request header.
+// If ParseFlow returns an error, it logs the error and returns an error response to the client.
+// Otherwise, it returns a JSON response with the parsed flow data.
+// @Summary Get flow info parsed
+// @Description	Gets the parsed flow data
+// @Tags Flow
+// @Produce json
+// @Param id path string true "Flow ID"
+// @Success	200 {object} parser.Pipeline
+// @Failure	500 {string} str
+// @Router /flow/{id} [get]
 func getFlow(flowParser parser.FlowParser) (string, string, gin.HandlerFunc) {
 	return http.MethodGet, FlowIdPath, func(c *gin.Context) {
 		id := c.Param("id")
@@ -39,6 +52,19 @@ func getFlow(flowParser parser.FlowParser) (string, string, gin.HandlerFunc) {
 	}
 }
 
+// getFlowInputs returns a gin.HandlerFunc which handles GET requests to /flow/{id}/inputs.
+// This function calls the GetInputsAndConfig method of the given parser.FlowParser with the id from the request path,
+// the user id from the request header, and the authorization token from the request header.
+// If GetInputsAndConfig returns an error, it logs the error and returns an error response to the client.
+// Otherwise, it returns a JSON response with the inputs and configuration of the flow.
+// @Summary Get flow inputs
+// @Description	Gets the inputs and configuration of the given flow
+// @Tags Flow
+// @Produce json
+// @Param id path string true "Flow ID"
+// @Success	200 {array} flows_api.Cell
+// @Failure	500 {string} str
+// @Router /flow/getinputs/{id} [get]
 func getFlowInputs(flowParser parser.FlowParser) (string, string, gin.HandlerFunc) {
 	return http.MethodGet, FlowInputsPath, func(c *gin.Context) {
 		id := c.Param("id")

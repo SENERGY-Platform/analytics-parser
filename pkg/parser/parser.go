@@ -72,9 +72,9 @@ func (f FlowParser) DecideDeploymentPlatform(cells []flows_api.Cell) (newCells [
 	// atm run operator on cloud when it supports both
 	for _, cell := range cells {
 		if cell.Type == "senergy.NodeElement" {
-			deploymentType := cell.DeploymentType
-			if *deploymentType == "" || *deploymentType == "both" {
-				*cell.DeploymentType = deploymentLocationLib.Cloud
+			if cell.DeploymentType == nil || *cell.DeploymentType == "both" {
+				cloudType := deploymentLocationLib.Cloud
+				cell.DeploymentType = &cloudType
 			}
 		}
 		newCells = append(newCells, cell)
@@ -83,7 +83,7 @@ func (f FlowParser) DecideDeploymentPlatform(cells []flows_api.Cell) (newCells [
 }
 
 func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
-	pipeline := Pipeline{FlowId: flow.Id.String(), Image: *flow.Image, Operators: make(map[string]Operator)}
+	pipeline := Pipeline{FlowId: flow.Id.Hex(), Image: *flow.Image, Operators: make(map[string]Operator)}
 
 	// Create basic operator list
 	cells := f.DecideDeploymentPlatform(flow.Model.Cells)
@@ -103,6 +103,11 @@ func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
 				downstreamConfig.Enabled = checkIfCloudOutputForwardedToFog(cells, cell.Id)
 			}
 
+			cost := uint(0)
+			if cell.Cost != nil {
+				cost = uint(*cell.Cost)
+			}
+
 			var operator = Operator{
 				cell.Id,
 				*cell.Name,
@@ -110,7 +115,7 @@ func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
 				*deploymentType,
 				*cell.Image,
 				inputTopics,
-				uint(*cell.Cost),
+				cost,
 				upstreamConfig,
 				downstreamConfig,
 			}
