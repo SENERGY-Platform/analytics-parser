@@ -35,7 +35,7 @@ import (
 	sb_util "github.com/SENERGY-Platform/go-service-base/util"
 )
 
-var Version = "0.0.12"
+var Version = "0.0.13"
 
 func main() {
 	ec := 0
