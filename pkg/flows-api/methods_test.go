@@ -36,35 +36,37 @@ func TestModel_GetEmptyNodeInputsAndConfigValues(t *testing.T) {
 	json.Unmarshal(byteValue, &flow)
 	expected := []Cell{{
 		Id:             "37eb2c6a-3879-4145-86c1-7d38fdd8b814",
-		Name:           "adder",
-		DeploymentType: "cloud",
+		Name:           flow.Model.Cells[0].Name,
+		DeploymentType: flow.Model.Cells[0].DeploymentType,
+		Position:       flow.Model.Cells[0].Position,
 		InPorts:        []string{"value", "timestamp"},
 		OutPorts:       []string{"sum", " lastTimestamp"},
 		Type:           "senergy.NodeElement",
-		Source:         Port{},
-		Target:         Port{},
-		Image:          "image",
+		Source:         flow.Model.Cells[0].Source,
+		Target:         flow.Model.Cells[0].Target,
+		Image:          flow.Model.Cells[0].Image,
 		Config:         nil,
-		OperatorId:     "5d2da1c0de2c3100015801f3",
+		OperatorId:     flow.Model.Cells[0].OperatorId,
 	},
 		{
 			Id:             "22a28f5b-54d8-4e46-9ba9-c36dc6bd3da8",
-			Name:           "adder",
-			DeploymentType: "cloud",
+			Name:           flow.Model.Cells[1].Name,
+			DeploymentType: flow.Model.Cells[1].DeploymentType,
+			Position:       flow.Model.Cells[1].Position,
 			InPorts:        []string{},
 			OutPorts:       []string{"sum", " lastTimestamp"},
 			Type:           "senergy.NodeElement",
-			Source:         Port{},
-			Target:         Port{},
-			Image:          "image",
+			Source:         flow.Model.Cells[1].Source,
+			Target:         flow.Model.Cells[1].Target,
+			Image:          flow.Model.Cells[1].Image,
 			Config:         nil,
-			OperatorId:     "5d2da1c0de2c3100015801f3",
+			OperatorId:     flow.Model.Cells[1].OperatorId,
 		},
 	}
 
 	if !reflect.DeepEqual(expected, flow.Model.GetEmptyNodeInputsAndConfigValues()) {
-		fmt.Printf("%#v", expected)
-		fmt.Printf("%#v", flow.Model.GetEmptyNodeInputsAndConfigValues())
+		fmt.Printf("%#v \n", expected)
+		fmt.Printf("%#v \n", flow.Model.GetEmptyNodeInputsAndConfigValues())
 		t.Error("structs do not match")
 	}
 

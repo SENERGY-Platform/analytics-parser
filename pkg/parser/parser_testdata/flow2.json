@@ -1,6 +1,7 @@
 {
   "name": "kombinierte Prognose",
   "description": null,
+  "image": "image",
   "model": {
     "cells": [
       {

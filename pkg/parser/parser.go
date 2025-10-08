@@ -83,6 +83,9 @@ func (f FlowParser) DecideDeploymentPlatform(cells []flows_api.Cell) (newCells [
 }
 
 func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
+	if flow.Image == nil {
+		*flow.Image = ""
+	}
 	pipeline := Pipeline{FlowId: flow.Id.Hex(), Image: *flow.Image, Operators: make(map[string]Operator)}
 
 	// Create basic operator list

@@ -25,22 +25,33 @@ import (
 	"testing"
 
 	flowsapi "github.com/SENERGY-Platform/analytics-parser/pkg/flows-api"
+	"github.com/SENERGY-Platform/analytics-parser/pkg/util"
 )
 
 func TestFlowParser_CreatePipelineList(t *testing.T) {
+	util.InitStructLogger("debug")
 	jsonFile, err := os.Open("parser_testdata/flow.json")
 	if err != nil {
 		fmt.Println(err)
 	}
-	defer jsonFile.Close()
+	defer func(jsonFile *os.File) {
+		err = jsonFile.Close()
+		if err != nil {
+			t.Skip("could not read json file")
+		}
+	}(jsonFile)
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 	var flow flowsapi.Flow
-	json.Unmarshal(byteValue, &flow)
+	err = json.Unmarshal(byteValue, &flow)
+	if err != nil {
+		return
+	}
 	parser := NewFlowParser(flowsapi.NewFlowApi(
 		"",
 	))
 	expected := Pipeline{
 		FlowId: "5ee0a2831b576d2534f04099",
+		Image:  "image",
 		Operators: map[string]Operator{
 			"22a28f5b-54d8-4e46-9ba9-c36dc6bd3da8": {
 				Id:             "22a28f5b-54d8-4e46-9ba9-c36dc6bd3da8",
@@ -80,6 +91,7 @@ func TestFlowParser_CreatePipelineList(t *testing.T) {
 }
 
 func TestFlowParser_CreatePipelineList2(t *testing.T) {
+	util.InitStructLogger("debug")
 	jsonFile, err := os.Open("parser_testdata/flow2.json")
 	if err != nil {
 		fmt.Println(err)
