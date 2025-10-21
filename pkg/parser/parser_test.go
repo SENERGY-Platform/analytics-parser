@@ -24,6 +24,7 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/SENERGY-Platform/analytics-parser/lib"
 	flowsapi "github.com/SENERGY-Platform/analytics-parser/pkg/flows-api"
 	"github.com/SENERGY-Platform/analytics-parser/pkg/util"
 )
@@ -49,22 +50,22 @@ func TestFlowParser_CreatePipelineList(t *testing.T) {
 	parser := NewFlowParser(flowsapi.NewFlowApi(
 		"",
 	))
-	expected := Pipeline{
+	expected := lib.Pipeline{
 		FlowId: "5ee0a2831b576d2534f04099",
 		Image:  "image",
-		Operators: map[string]Operator{
+		Operators: map[string]lib.Operator{
 			"22a28f5b-54d8-4e46-9ba9-c36dc6bd3da8": {
 				Id:             "22a28f5b-54d8-4e46-9ba9-c36dc6bd3da8",
 				Name:           "adder",
 				OperatorId:     "5d2da1c0de2c3100015801f3",
 				DeploymentType: "cloud",
 				ImageId:        "image",
-				InputTopics: []InputTopic{
+				InputTopics: []lib.InputTopic{
 					{
 						TopicName:   "analytics-adder",
 						FilterType:  "OperatorId",
 						FilterValue: "37eb2c6a-3879-4145-86c1-7d38fdd8b814",
-						Mappings: []Mapping{
+						Mappings: []lib.Mapping{
 							{"sum", "value"},
 							{" lastTimestamp", "timestamp"}},
 					},
@@ -109,7 +110,7 @@ func TestFlowParser_CreatePipelineList2(t *testing.T) {
 	}
 	defer jsonFileResult.Close()
 	byteValue, _ = ioutil.ReadAll(jsonFileResult)
-	var expected Pipeline
+	var expected lib.Pipeline
 	json.Unmarshal(byteValue, &expected)
 	if !reflect.DeepEqual(expected, parser.CreatePipelineList(flow)) {
 		fmt.Println("Expected:")

@@ -38,7 +38,7 @@ import (
 // CreateServer creates an API server with the given configuration.
 // It sets up the necessary middleware and routes.
 // @title Analytics-Parser API
-// @version 0.0.13
+// @version 0.0.14
 // @description For the parsing of analytics flows.
 // @license.name Apache-2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html

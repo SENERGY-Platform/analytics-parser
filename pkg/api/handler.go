@@ -36,7 +36,7 @@ import (
 // @Tags Flow
 // @Produce json
 // @Param id path string true "Flow ID"
-// @Success	200 {object} parser.Pipeline
+// @Success	200 {object} lib.Pipeline
 // @Failure	500 {string} str
 // @Router /flow/{id} [get]
 func getFlow(flowParser parser.FlowParser) (string, string, gin.HandlerFunc) {

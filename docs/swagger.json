@@ -8,7 +8,7 @@
             "name": "Apache-2.0",
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         },
-        "version": "0.0.13"
+        "version": "0.0.14"
     },
     "basePath": "/",
     "paths": {
@@ -73,7 +73,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/parser.Pipeline"
+                            "$ref": "#/definitions/lib.Pipeline"
                         }
                     },
                     "500": {
@@ -93,7 +93,7 @@
                 "config": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/models.ConfigValue"
+                        "$ref": "#/definitions/lib.ConfigValue"
                     }
                 },
                 "cost": {
@@ -127,20 +127,20 @@
                     }
                 },
                 "position": {
-                    "$ref": "#/definitions/models.CellPosition"
+                    "$ref": "#/definitions/lib.CellPosition"
                 },
                 "source": {
-                    "$ref": "#/definitions/models.CellLink"
+                    "$ref": "#/definitions/lib.CellLink"
                 },
                 "target": {
-                    "$ref": "#/definitions/models.CellLink"
+                    "$ref": "#/definitions/lib.CellLink"
                 },
                 "type": {
                     "type": "string"
                 }
             }
         },
-        "models.CellLink": {
+        "lib.CellLink": {
             "type": "object",
             "properties": {
                 "id": {
@@ -154,7 +154,7 @@
                 }
             }
         },
-        "models.CellPosition": {
+        "lib.CellPosition": {
             "type": "object",
             "properties": {
                 "x": {
@@ -165,7 +165,7 @@
                 }
             }
         },
-        "models.ConfigValue": {
+        "lib.ConfigValue": {
             "type": "object",
             "properties": {
                 "name": {
@@ -176,7 +176,7 @@
                 }
             }
         },
-        "parser.DownstreamConfig": {
+        "lib.DownstreamConfig": {
             "type": "object",
             "properties": {
                 "enabled": {
@@ -184,7 +184,7 @@
                 }
             }
         },
-        "parser.InputTopic": {
+        "lib.InputTopic": {
             "type": "object",
             "properties": {
                 "filterType": {
@@ -196,7 +196,7 @@
                 "mappings": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/parser.Mapping"
+                        "$ref": "#/definitions/lib.Mapping"
                     }
                 },
                 "topicName": {
@@ -204,7 +204,7 @@
                 }
             }
         },
-        "parser.Mapping": {
+        "lib.Mapping": {
             "type": "object",
             "properties": {
                 "dest": {
@@ -215,7 +215,7 @@
                 }
             }
         },
-        "parser.Operator": {
+        "lib.Operator": {
             "type": "object",
             "properties": {
                 "cost": {
@@ -225,7 +225,7 @@
                     "type": "string"
                 },
                 "downstream": {
-                    "$ref": "#/definitions/parser.DownstreamConfig"
+                    "$ref": "#/definitions/lib.DownstreamConfig"
                 },
                 "id": {
                     "type": "string"
@@ -236,7 +236,7 @@
                 "inputTopics": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/parser.InputTopic"
+                        "$ref": "#/definitions/lib.InputTopic"
                     }
                 },
                 "name": {
@@ -246,11 +246,11 @@
                     "type": "string"
                 },
                 "upstream": {
-                    "$ref": "#/definitions/parser.UpstreamConfig"
+                    "$ref": "#/definitions/lib.UpstreamConfig"
                 }
             }
         },
-        "parser.Pipeline": {
+        "lib.Pipeline": {
             "type": "object",
             "properties": {
                 "flowId": {
@@ -262,12 +262,12 @@
                 "operators": {
                     "type": "object",
                     "additionalProperties": {
-                        "$ref": "#/definitions/parser.Operator"
+                        "$ref": "#/definitions/lib.Operator"
                     }
                 }
             }
         },
-        "parser.UpstreamConfig": {
+        "lib.UpstreamConfig": {
             "type": "object",
             "properties": {
                 "enabled": {

@@ -1,5 +1,6 @@
 {
   "debug": true,
+  "server_port": 8003,
   "logger": {
     "level": "debug"
   },

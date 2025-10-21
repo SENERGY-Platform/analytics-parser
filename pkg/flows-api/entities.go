@@ -17,7 +17,7 @@
 package flows_api
 
 import (
-	flowModels "github.com/SENERGY-Platform/analytics-flow-repo-v2/pkg/models"
+	flowModels "github.com/SENERGY-Platform/analytics-flow-repo-v2/lib"
 )
 
 type Flow struct {

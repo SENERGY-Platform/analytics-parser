@@ -28,15 +28,15 @@ import (
 )
 
 type FlowParser struct {
-	flowApi lib.FlowApiService
+	flowApi flows_api.FlowApiService
 }
 
-func NewFlowParser(flowApi lib.FlowApiService) *FlowParser {
+func NewFlowParser(flowApi flows_api.FlowApiService) *FlowParser {
 
 	return &FlowParser{flowApi}
 }
 
-func (f FlowParser) ParseFlow(id string, userId string, authorization string) (pipeline Pipeline, err error) {
+func (f FlowParser) ParseFlow(id string, userId string, authorization string) (pipeline lib.Pipeline, err error) {
 
 	// Get flow to execute
 	flow, err := f.flowApi.GetFlowData(id, userId, authorization)
@@ -82,11 +82,11 @@ func (f FlowParser) DecideDeploymentPlatform(cells []flows_api.Cell) (newCells [
 	return
 }
 
-func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
+func (f FlowParser) CreatePipelineList(flow flows_api.Flow) lib.Pipeline {
 	if flow.Image == nil {
 		*flow.Image = ""
 	}
-	pipeline := Pipeline{FlowId: flow.Id.Hex(), Image: *flow.Image, Operators: make(map[string]Operator)}
+	pipeline := lib.Pipeline{FlowId: flow.Id.Hex(), Image: *flow.Image, Operators: make(map[string]lib.Operator)}
 
 	// Create basic operator list
 	cells := f.DecideDeploymentPlatform(flow.Model.Cells)
@@ -96,8 +96,8 @@ func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
 
 			deploymentType := cell.DeploymentType
 
-			var upstreamConfig UpstreamConfig
-			var downstreamConfig DownstreamConfig
+			var upstreamConfig lib.UpstreamConfig
+			var downstreamConfig lib.DownstreamConfig
 			if *deploymentType == deploymentLocationLib.Local {
 				util.Logger.Debug("check if local operator output of " + cell.Id + " shall be forwarded to cloud")
 				upstreamConfig.Enabled = checkIfLocalOutputForwardedToPlatform(cells, cell.Id)
@@ -111,7 +111,7 @@ func (f FlowParser) CreatePipelineList(flow flows_api.Flow) Pipeline {
 				cost = uint(*cell.Cost)
 			}
 
-			var operator = Operator{
+			var operator = lib.Operator{
 				cell.Id,
 				*cell.Name,
 				*cell.OperatorId,
@@ -165,7 +165,7 @@ func checkIfCloudOutputForwardedToFog(cells []flows_api.Cell, cellId string) boo
 	return false
 }
 
-func getInputTopics(flow flows_api.Flow, cell flows_api.Cell) (inputTopics []InputTopic) {
+func getInputTopics(flow flows_api.Flow, cell flows_api.Cell) (inputTopics []lib.InputTopic) {
 	// Generate input topic names. This will add the required topic prefixes depending whether the operator
 	// is deployed on the cloud or local
 
@@ -173,14 +173,14 @@ func getInputTopics(flow flows_api.Flow, cell flows_api.Cell) (inputTopics []Inp
 
 	for _, link := range linksToTarget {
 		// create mapping
-		var mapping Mapping
+		var mapping lib.Mapping
 		if link.Source.Port[:4] == "out-" {
-			mapping = Mapping{link.Source.Port[4:], link.Target.Port[3:]}
+			mapping = lib.Mapping{link.Source.Port[4:], link.Target.Port[3:]}
 		} else {
-			mapping = Mapping{link.Source.Port, link.Target.Port}
+			mapping = lib.Mapping{link.Source.Port, link.Target.Port}
 		}
 		sourceNode, _ := getNodeById(flow.Model.Cells, link.Source.Id)
-		topic := InputTopic{}
+		topic := lib.InputTopic{}
 		if !checkInputTopicExists(inputTopics, link.Source.Id) {
 			// TODO error handling
 			var topicName string
@@ -206,7 +206,7 @@ func getInputTopics(flow flows_api.Flow, cell flows_api.Cell) (inputTopics []Inp
 	return
 }
 
-func checkInputTopicExists(topics []InputTopic, topicId string) bool {
+func checkInputTopicExists(topics []lib.InputTopic, topicId string) bool {
 	if len(topics) == 0 {
 		return false
 	}
