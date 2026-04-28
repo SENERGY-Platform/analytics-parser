@@ -98,10 +98,12 @@ func (f FlowParser) CreatePipelineList(flow flows_api.Flow) lib.Pipeline {
 
 			var upstreamConfig lib.UpstreamConfig
 			var downstreamConfig lib.DownstreamConfig
-			if *deploymentType == deploymentLocationLib.Local {
+			switch *cell.DeploymentType {
+			case deploymentLocationLib.Local:
 				util.Logger.Debug("check if local operator output of " + cell.Id + " shall be forwarded to cloud")
 				upstreamConfig.Enabled = checkIfLocalOutputForwardedToPlatform(cells, cell.Id)
-			} else if *deploymentType == deploymentLocationLib.Cloud {
+			case deploymentLocationLib.Cloud:
+			default:
 				util.Logger.Debug("check if cloud operator output of " + cell.Id + " shall be forwarded to fog")
 				downstreamConfig.Enabled = checkIfCloudOutputForwardedToFog(cells, cell.Id)
 			}
@@ -144,7 +146,8 @@ func checkIfLocalOutputForwardedToPlatform(cells []flows_api.Cell, cellId string
 	linksFromNode := getLinksFromSourceNode(cells, cellId)
 	for _, link := range linksFromNode {
 		targetNode, _ := getNodeById(cells, link.Target.Id)
-		if *targetNode.DeploymentType == deploymentLocationLib.Cloud {
+		// Check if target node is deployed on cloud or both, the second check is for operators without deployment type specified
+		if *targetNode.DeploymentType == deploymentLocationLib.Cloud || *targetNode.DeploymentType == "" {
 			return true
 		}
 	}

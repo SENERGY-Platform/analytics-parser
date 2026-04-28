@@ -1,3 +1,4 @@
 .idea
 vendor
 .env
+pkg/parser/parser_testdata/test.json

@@ -11,7 +11,7 @@
       "InputTopics": null,
       "cost": 0,
       "upstream": {
-        "Enabled": false
+        "Enabled": true
       },
       "downstream": {
         "Enabled": false
