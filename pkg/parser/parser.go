@@ -103,6 +103,8 @@ func (f FlowParser) CreatePipelineList(flow flows_api.Flow) lib.Pipeline {
 				util.Logger.Debug("check if local operator output of " + cell.Id + " shall be forwarded to cloud")
 				upstreamConfig.Enabled = checkIfLocalOutputForwardedToPlatform(cells, cell.Id)
 			case deploymentLocationLib.Cloud:
+				util.Logger.Debug("check if cloud operator output of " + cell.Id + " shall be forwarded to fog")
+				downstreamConfig.Enabled = checkIfCloudOutputForwardedToFog(cells, cell.Id)
 			default:
 				util.Logger.Debug("check if cloud operator output of " + cell.Id + " shall be forwarded to fog")
 				downstreamConfig.Enabled = checkIfCloudOutputForwardedToFog(cells, cell.Id)
@@ -190,8 +192,8 @@ func getInputTopics(flow flows_api.Flow, cell flows_api.Cell) (inputTopics []lib
 			switch *cell.DeploymentType {
 			case deploymentLocationLib.Local:
 				topicName = operatorLib.GenerateFogOperatorTopic(*sourceNode.Name, sourceNode.Id, "")
-				break
 			case deploymentLocationLib.Cloud:
+				topicName = operatorLib.GenerateCloudOperatorTopic(*sourceNode.Name)
 			default:
 				topicName = operatorLib.GenerateCloudOperatorTopic(*sourceNode.Name)
 
