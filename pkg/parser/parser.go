@@ -184,10 +184,14 @@ func getInputTopics(flow flows_api.Flow, cell flows_api.Cell) (inputTopics []lib
 		if !checkInputTopicExists(inputTopics, link.Source.Id) {
 			// TODO error handling
 			var topicName string
-			if *cell.DeploymentType == deploymentLocationLib.Local {
+			switch *cell.DeploymentType {
+			case deploymentLocationLib.Local:
 				topicName = operatorLib.GenerateFogOperatorTopic(*sourceNode.Name, sourceNode.Id, "")
-			} else if *cell.DeploymentType == deploymentLocationLib.Cloud {
+				break
+			case deploymentLocationLib.Cloud:
+			default:
 				topicName = operatorLib.GenerateCloudOperatorTopic(*sourceNode.Name)
+
 			}
 			topic.TopicName = topicName
 			topic.FilterType = "OperatorId"

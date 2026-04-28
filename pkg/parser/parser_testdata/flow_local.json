@@ -1,0 +1,82 @@
+{
+  "_id": "69ef49e64451cd9dd9241965",
+  "name": "aaaaaa",
+  "model": {
+    "cells": [
+      {
+        "type": "senergy.NodeElement",
+        "inPorts": [
+          "value1",
+          "value2"
+        ],
+        "outPorts": [
+          "sum"
+        ],
+        "name": "local-adder",
+        "image": "ghcr.io/senergy-platform/analytics-operator-local-adder",
+        "operatorId": "664db084dd99c172e6e981cd",
+        "position": {
+          "x": 100,
+          "y": 200
+        },
+        "id": "14fc43eb-4072-4411-9f15-ebe9ac2cddab",
+        "config": [
+          {
+            "name": "filter",
+            "type": "bool"
+          }
+        ],
+        "deploymentType": "local"
+      },
+      {
+        "type": "senergy.NodeElement",
+        "inPorts": [
+          "value",
+          "original_input_ids"
+        ],
+        "outPorts": [
+          "output_value",
+          "timestamp",
+          "original_input_ids"
+        ],
+        "name": "addTimestamp",
+        "image": "ghcr.io/senergy-platform/analytics-operator-add-timestamp:prod",
+        "operatorId": "65e0777675de4dc34028ea1e",
+        "position": {
+          "x": 580,
+          "y": 200
+        },
+        "id": "1d8316b7-8806-40df-befd-7b071474b2c4",
+        "config": [
+          {
+            "name": "inputType",
+            "type": "string"
+          },
+          {
+            "name": "timezone",
+            "type": "string"
+          }
+        ],
+        "deploymentType": ""
+      },
+      {
+        "type": "link",
+        "source": {
+          "id": "14fc43eb-4072-4411-9f15-ebe9ac2cddab",
+          "magnet": "portBody",
+          "port": "out-sum"
+        },
+        "target": {
+          "id": "1d8316b7-8806-40df-befd-7b071474b2c4",
+          "magnet": "portBody",
+          "port": "in-value"
+        },
+        "id": "07eeaaa8-716c-4723-b4ef-c95564f1728b"
+      }
+    ]
+  },
+  "image": "<?xml version=\"1.0\" standalone=\"no\"?>\r\n<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"32.79999923706055 185.89999389648438 935.2000122070312 115.30001831054688\" width=\"100%\" height=\"100%\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" joint-selector=\"svg\" style=\"overflow: hidden;\" id=\"v-25\"><defs joint-selector=\"defs\"/><g class=\"joint-layers\"><g class=\"joint-back-layer\"/><g class=\"joint-cells-layer joint-viewport\"><g model-id=\"14fc43eb-4072-4411-9f15-ebe9ac2cddab\" data-type=\"senergy.NodeElement\" id=\"j_2\" class=\"joint-cell joint-type-senergy joint-type-senergy-nodeelement  joint-theme-default\" transform=\"translate(100,200)\"><rect id=\"v-31\" stroke-width=\"2\" stroke=\"black\" fill=\"white\" width=\"250\" height=\"20\"/><rect id=\"v-32\" stroke-width=\"2\" stroke=\"black\" fill=\"#ddd\" visibility=\"visible\" width=\"250\" height=\"80\" transform=\"matrix(1,0,0,1,0,20)\"/><text id=\"v-33\" font-size=\"10\" xml:space=\"preserve\" text-anchor=\"middle\" fill=\"black\" transform=\"matrix(1,0,0,1,125,10)\"><tspan class=\"v-line\" dy=\"0.3em\">14fc43eb-4072-4411-9f15-ebe9ac2cddab</tspan></text><text id=\"v-34\" font-size=\"14\" xml:space=\"preserve\" text-anchor=\"middle\" fill=\"black\" visibility=\"visible\" transform=\"matrix(1,0,0,1,125,50)\"><tspan class=\"v-line\" dy=\"0.3em\">local-adder</tspan></text><rect id=\"v-35\" fill=\"orange\" stroke=\"black\" stroke-width=\"2\" width=\"18.099998474121094\" height=\"16.5\" transform=\"matrix(1,0,0,1,240.89999389648438,-14.100000381469727)\"/><text id=\"v-37\" font-size=\"9\" xml:space=\"preserve\" text-anchor=\"middle\" fill=\"black\" font-weight=\"bold\" transform=\"matrix(1,0,0,1,250,-5)\"><tspan class=\"v-line\" dy=\"0.3em\"> X </tspan></text><rect id=\"v-36\" fill=\"grey\" stroke=\"black\" stroke-width=\"2\" width=\"52.0250244140625\" height=\"16.5\" transform=\"matrix(1,0,0,1,186.5,-14.100000381469727)\"/><text id=\"v-38\" font-size=\"9\" xml:space=\"preserve\" text-anchor=\"middle\" fill=\"black\" font-weight=\"bold\" transform=\"matrix(1,0,0,1,212.5,-5)\"><tspan class=\"v-line\" dy=\"0.3em\">Copy Id</tspan></text><g id=\"v-39\" class=\"joint-port\" transform=\"matrix(1,0,0,1,0,25)\"><circle class=\"joint-port-body\" id=\"v-43\" fill=\"#fff\" stroke=\"#000\" r=\"10\"/><text class=\"joint-port-label\" id=\"v-42\" y=\".3em\" text-anchor=\"end\" transform=\"matrix(1,0,0,1,-15,10)\" xml:space=\"preserve\" fill=\"#000\"><tspan class=\"v-line\" dy=\"0\">value1</tspan></text></g><g id=\"v-40\" class=\"joint-port\" transform=\"matrix(1,0,0,1,0,75)\"><circle class=\"joint-port-body\" id=\"v-45\" fill=\"#fff\" stroke=\"#000\" r=\"10\"/><text class=\"joint-port-label\" id=\"v-44\" y=\".3em\" text-anchor=\"end\" transform=\"matrix(1,0,0,1,-15,10)\" xml:space=\"preserve\" fill=\"#000\"><tspan class=\"v-line\" dy=\"0\">value2</tspan></text></g><g id=\"v-41\" class=\"joint-port\" transform=\"matrix(1,0,0,1,250,50)\"><circle class=\"joint-port-body\" id=\"v-47\" fill=\"#fff\" stroke=\"#000\" r=\"10\"/><text class=\"joint-port-label\" id=\"v-46\" y=\".3em\" text-anchor=\"start\" transform=\"matrix(1,0,0,1,15,10)\" xml:space=\"preserve\" fill=\"#000\"><tspan class=\"v-line\" dy=\"0\">sum</tspan></text></g></g><g model-id=\"1d8316b7-8806-40df-befd-7b071474b2c4\" data-type=\"senergy.NodeElement\" id=\"j_3\" class=\"joint-cell joint-type-senergy joint-type-senergy-nodeelement joint-element joint-theme-default\" transform=\"translate(580,200)\"><rect id=\"v-48\" stroke-width=\"2\" stroke=\"black\" fill=\"white\" width=\"250\" height=\"20\"/><rect id=\"v-49\" stroke-width=\"2\" stroke=\"black\" fill=\"#4484ce\" visibility=\"visible\" width=\"250\" height=\"80\" transform=\"matrix(1,0,0,1,0,20)\"/><text id=\"v-50\" font-size=\"10\" xml:space=\"preserve\" text-anchor=\"middle\" fill=\"black\" transform=\"matrix(1,0,0,1,125,10)\"><tspan class=\"v-line\" dy=\"0.3em\">1d8316b7-8806-40df-befd-7b071474b2c4</tspan></text><text id=\"v-51\" font-size=\"14\" xml:space=\"preserve\" text-anchor=\"middle\" fill=\"black\" visibility=\"visible\" transform=\"matrix(1,0,0,1,125,50)\"><tspan class=\"v-line\" dy=\"0.3em\">addTimestamp</tspan></text><rect id=\"v-52\" fill=\"orange\" stroke=\"black\" stroke-width=\"2\" width=\"18.099998474121094\" height=\"16.5\" transform=\"matrix(1,0,0,1,240.89999389648438,-14.100000381469727)\"/><text id=\"v-54\" font-size=\"9\" xml:space=\"preserve\" text-anchor=\"middle\" fill=\"black\" font-weight=\"bold\" transform=\"matrix(1,0,0,1,250,-5)\"><tspan class=\"v-line\" dy=\"0.3em\"> X </tspan></text><rect id=\"v-53\" fill=\"grey\" stroke=\"black\" stroke-width=\"2\" width=\"52.0250244140625\" height=\"16.5\" transform=\"matrix(1,0,0,1,186.5,-14.100000381469727)\"/><text id=\"v-55\" font-size=\"9\" xml:space=\"preserve\" text-anchor=\"middle\" fill=\"black\" font-weight=\"bold\" transform=\"matrix(1,0,0,1,212.5,-5)\"><tspan class=\"v-line\" dy=\"0.3em\">Copy Id</tspan></text><g id=\"v-56\" class=\"joint-port\" transform=\"matrix(1,0,0,1,0,25)\"><circle class=\"joint-port-body\" id=\"v-62\" fill=\"#fff\" stroke=\"#000\" r=\"10\"/><text class=\"joint-port-label\" id=\"v-61\" y=\".3em\" text-anchor=\"end\" transform=\"matrix(1,0,0,1,-15,10)\" xml:space=\"preserve\" fill=\"#000\"><tspan class=\"v-line\" dy=\"0\">value</tspan></text></g><g id=\"v-57\" class=\"joint-port\" transform=\"matrix(1,0,0,1,0,75)\"><circle class=\"joint-port-body\" id=\"v-64\" fill=\"#fff\" stroke=\"#000\" r=\"10\"/><text class=\"joint-port-label\" id=\"v-63\" y=\".3em\" text-anchor=\"end\" transform=\"matrix(1,0,0,1,-15,10)\" xml:space=\"preserve\" fill=\"#000\"><tspan class=\"v-line\" dy=\"0\">original_input_ids</tspan></text></g><g id=\"v-58\" class=\"joint-port\" transform=\"matrix(1,0,0,1,250,17)\"><circle class=\"joint-port-body\" id=\"v-66\" fill=\"#fff\" stroke=\"#000\" r=\"10\"/><text class=\"joint-port-label\" id=\"v-65\" y=\".3em\" text-anchor=\"start\" transform=\"matrix(1,0,0,1,15,10)\" xml:space=\"preserve\" fill=\"#000\"><tspan class=\"v-line\" dy=\"0\">output_value</tspan></text></g><g id=\"v-59\" class=\"joint-port\" transform=\"matrix(1,0,0,1,250,50)\"><circle class=\"joint-port-body\" id=\"v-68\" fill=\"#fff\" stroke=\"#000\" r=\"10\"/><text class=\"joint-port-label\" id=\"v-67\" y=\".3em\" text-anchor=\"start\" transform=\"matrix(1,0,0,1,15,10)\" xml:space=\"preserve\" fill=\"#000\"><tspan class=\"v-line\" dy=\"0\">timestamp</tspan></text></g><g id=\"v-60\" class=\"joint-port\" transform=\"matrix(1,0,0,1,250,83)\"><circle class=\"joint-port-body\" id=\"v-70\" fill=\"#fff\" stroke=\"#000\" r=\"10\"/><text class=\"joint-port-label\" id=\"v-69\" y=\".3em\" text-anchor=\"start\" transform=\"matrix(1,0,0,1,15,10)\" xml:space=\"preserve\" fill=\"#000\"><tspan class=\"v-line\" dy=\"0\">original_input_ids</tspan></text></g></g><g model-id=\"07eeaaa8-716c-4723-b4ef-c95564f1728b\" data-type=\"link\" id=\"j_4\" class=\"joint-cell joint-type-link joint-link joint-theme-default\" style=\"\"><path class=\"connection\" stroke=\"black\" d=\"M 360 249 L 570 226\"/><path class=\"marker-source\" fill=\"black\" stroke=\"black\" d=\"M 0 0 0 0\" transform=\"matrix(0.994147539138794,-0.10803081095218658,0.10803081095218658,0.994147539138794,360,248.91000366210938)\"/><path class=\"marker-target\" fill=\"black\" stroke=\"black\" d=\"M 10 0 L 0 5 L 10 10 z\" id=\"v-74\" transform=\"matrix(-0.994147539138794,0.10803081095218658,-0.10803081095218658,-0.994147539138794,570.5401000976562,231.0607452392578)\"/><path class=\"connection-wrap\" d=\"M 360 249 L 570 226\"/><g class=\"marker-arrowheads\"><g class=\"marker-arrowhead-group marker-arrowhead-group-target\" id=\"v-73\" transform=\"matrix(-0.994147539138794,0.10803081095218658,-0.10803081095218658,-0.994147539138794,571.4044189453125,239.013916015625)\"/></g></g></g><g class=\"joint-labels-layer joint-viewport\"/><g class=\"joint-front-layer\"/><g class=\"joint-tools-layer\"/></g></svg>",
+  "userId": "61083c0c-3204-4ec1-8143-97fea19dab8e",
+  "dateCreated": "2026-04-27T11:35:02.949Z",
+  "dateUpdated": "2026-04-27T11:43:35.618Z"
+}

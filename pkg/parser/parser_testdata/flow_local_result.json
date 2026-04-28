@@ -24,7 +24,7 @@
       "ImageId": "ghcr.io/senergy-platform/analytics-operator-add-timestamp:prod",
       "InputTopics": [
         {
-          "TopicName": "",
+          "TopicName": "analytics-local-adder",
           "FilterType": "OperatorId",
           "FilterValue": "14fc43eb-4072-4411-9f15-ebe9ac2cddab",
           "Mappings": [

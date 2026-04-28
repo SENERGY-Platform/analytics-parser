@@ -18,38 +18,27 @@ package parser
 
 import (
 	"encoding/json"
-	"fmt"
-	"io/ioutil"
 	"os"
-	"reflect"
 	"testing"
 
 	"github.com/SENERGY-Platform/analytics-parser/lib"
 	flowsapi "github.com/SENERGY-Platform/analytics-parser/pkg/flows-api"
 	"github.com/SENERGY-Platform/analytics-parser/pkg/util"
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestFlowParser_CreatePipelineList(t *testing.T) {
 	util.InitStructLogger("debug")
-	jsonFile, err := os.Open("parser_testdata/flow.json")
+
+	flowData, err := os.ReadFile("parser_testdata/flow.json")
 	if err != nil {
-		fmt.Println(err)
+		t.Fatalf("failed to read flow file: %v", err)
 	}
-	defer func(jsonFile *os.File) {
-		err = jsonFile.Close()
-		if err != nil {
-			t.Skip("could not read json file")
-		}
-	}(jsonFile)
-	byteValue, _ := ioutil.ReadAll(jsonFile)
 	var flow flowsapi.Flow
-	err = json.Unmarshal(byteValue, &flow)
-	if err != nil {
-		return
+	if err := json.Unmarshal(flowData, &flow); err != nil {
+		t.Fatalf("failed to unmarshal flow: %v", err)
 	}
-	parser := NewFlowParser(flowsapi.NewFlowApi(
-		"",
-	))
+
 	expected := lib.Pipeline{
 		FlowId: "5ee0a2831b576d2534f04099",
 		Image:  "image",
@@ -67,7 +56,8 @@ func TestFlowParser_CreatePipelineList(t *testing.T) {
 						FilterValue: "37eb2c6a-3879-4145-86c1-7d38fdd8b814",
 						Mappings: []lib.Mapping{
 							{"sum", "value"},
-							{" lastTimestamp", "timestamp"}},
+							{" lastTimestamp", "timestamp"},
+						},
 					},
 				},
 			},
@@ -81,44 +71,78 @@ func TestFlowParser_CreatePipelineList(t *testing.T) {
 			},
 		},
 	}
-	list := parser.CreatePipelineList(flow)
-	if !reflect.DeepEqual(expected, list) {
-		fmt.Println(expected)
-		fmt.Println(list)
-		file, _ := json.MarshalIndent(list, "", " ")
-		_ = ioutil.WriteFile("./parser_testdata/test.json", file, 0644)
-		t.Error("structs do not match")
+
+	parser := NewFlowParser(flowsapi.NewFlowApi(""))
+	actual := parser.CreatePipelineList(flow)
+
+	if diff := cmp.Diff(expected, actual); diff != "" {
+		if out, err := json.MarshalIndent(actual, "", "  "); err == nil {
+			_ = os.WriteFile("./parser_testdata/test.json", out, 0644)
+		}
+		t.Errorf("CreatePipelineList() mismatch (-want +got):\n%s", diff)
 	}
 }
 
 func TestFlowParser_CreatePipelineList2(t *testing.T) {
 	util.InitStructLogger("debug")
-	jsonFile, err := os.Open("parser_testdata/flow2.json")
+
+	flowData, err := os.ReadFile("parser_testdata/flow2.json")
 	if err != nil {
-		fmt.Println(err)
+		t.Fatalf("failed to open flow file: %v", err)
 	}
-	defer jsonFile.Close()
-	byteValue, _ := ioutil.ReadAll(jsonFile)
 	var flow flowsapi.Flow
-	json.Unmarshal(byteValue, &flow)
-	parser := NewFlowParser(flowsapi.NewFlowApi(
-		"",
-	))
-	jsonFileResult, err := os.Open("parser_testdata/flow2-result.json")
-	if err != nil {
-		fmt.Println(err)
+	if err := json.Unmarshal(flowData, &flow); err != nil {
+		t.Fatalf("failed to unmarshal flow: %v", err)
 	}
-	defer jsonFileResult.Close()
-	byteValue, _ = ioutil.ReadAll(jsonFileResult)
+
+	resultData, err := os.ReadFile("parser_testdata/flow2-result.json")
+	if err != nil {
+		t.Fatalf("failed to open result file: %v", err)
+	}
 	var expected lib.Pipeline
-	json.Unmarshal(byteValue, &expected)
-	if !reflect.DeepEqual(expected, parser.CreatePipelineList(flow)) {
-		fmt.Println("Expected:")
-		fmt.Printf("%+v\n", expected)
-		fmt.Println("Actual:")
-		fmt.Printf("%+v\n", parser.CreatePipelineList(flow))
-		file, _ := json.MarshalIndent(parser.CreatePipelineList(flow), "", " ")
-		_ = ioutil.WriteFile("./parser_testdata/test.json", file, 0644)
-		t.Error("structs do not match")
+	if err := json.Unmarshal(resultData, &expected); err != nil {
+		t.Fatalf("failed to unmarshal expected result: %v", err)
+	}
+
+	parser := NewFlowParser(flowsapi.NewFlowApi(""))
+	actual := parser.CreatePipelineList(flow)
+
+	if diff := cmp.Diff(expected, actual); diff != "" {
+		if out, err := json.MarshalIndent(actual, "", "  "); err == nil {
+			_ = os.WriteFile("./parser_testdata/test.json", out, 0644)
+		}
+		t.Errorf("CreatePipelineList() mismatch (-want +got):\n%s", diff)
+	}
+}
+
+func TestFlowParser_CreatePipelineListLocal(t *testing.T) {
+	util.InitStructLogger("debug")
+
+	flowData, err := os.ReadFile("parser_testdata/flow_local.json")
+	if err != nil {
+		t.Fatalf("failed to open flow file: %v", err)
+	}
+	var flow flowsapi.Flow
+	if err := json.Unmarshal(flowData, &flow); err != nil {
+		t.Fatalf("failed to unmarshal flow: %v", err)
+	}
+
+	resultData, err := os.ReadFile("parser_testdata/flow_local_result.json")
+	if err != nil {
+		t.Fatalf("failed to open result file: %v", err)
+	}
+	var expected lib.Pipeline
+	if err := json.Unmarshal(resultData, &expected); err != nil {
+		t.Fatalf("failed to unmarshal expected result: %v", err)
+	}
+
+	parser := NewFlowParser(flowsapi.NewFlowApi(""))
+	actual := parser.CreatePipelineList(flow)
+
+	if diff := cmp.Diff(expected, actual); diff != "" {
+		if out, err := json.MarshalIndent(actual, "", "  "); err == nil {
+			_ = os.WriteFile("./parser_testdata/test.json", out, 0644)
+		}
+		t.Errorf("CreatePipelineList() mismatch (-want +got):\n%s", diff)
 	}
 }
