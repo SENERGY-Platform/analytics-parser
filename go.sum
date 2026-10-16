@@ -8,8 +8,8 @@ github.com/SENERGY-Platform/analytics-flow-repo-v2 v0.0.38 h1:xkKRYefW2nEdTG2GoZ
 github.com/SENERGY-Platform/analytics-flow-repo-v2 v0.0.38/go.mod h1:yERMkZrN/OPB4sLCM3f2aUz8d2Hr5uevRSVe0NiIGDA=
 github.com/SENERGY-Platform/analytics-fog-lib v1.1.28 h1:/wYfSSabEWzhCmDn6APyChDUroo0/a7X78nmVIQCl9U=
 github.com/SENERGY-Platform/analytics-fog-lib v1.1.28/go.mod h1:1rPzig+drbFbQCsTC52cVwTendccIbg3u2p560N3H2A=
-github.com/SENERGY-Platform/gin-middleware v0.14.1 h1:o2le7do9++e377ixtnFXbobAJP5CSMQXW7d1dUSAwFU=
-github.com/SENERGY-Platform/gin-middleware v0.14.1/go.mod h1:+9dhC08w9tpnjnFC8gYO0+0Po5TKfeUGt+5a1jUVfqI=
+github.com/SENERGY-Platform/gin-middleware v0.14.2 h1:SqCuJIZRmewAI2zxZp4KJV8i7swlDF01PX/1qtFK4Mw=
+github.com/SENERGY-Platform/gin-middleware v0.14.2/go.mod h1:FI8SZIBuCjq6xXm+So/sXZIThRVB0+o0R2uyDFTNy4o=
 github.com/SENERGY-Platform/go-env-loader v0.5.3 h1:sNM/psxYBs3DeDCw8P8gWM2hvySijwy9t2DdSGdhF1c=
 github.com/SENERGY-Platform/go-env-loader v0.5.3/go.mod h1:vdEOp4x1VIzmCR+5u/4/GmO8bUOkYsP6NQaLy/46AVE=
 github.com/SENERGY-Platform/go-service-base/config-hdl v1.2.0 h1:OST21YZ0/Or10Ey2woQbaN5OVJHr+2Ix84pCygx5S3o=

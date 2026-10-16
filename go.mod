@@ -7,7 +7,7 @@ go 1.25.0
 require (
 	github.com/SENERGY-Platform/analytics-flow-repo-v2 v0.0.38
 	github.com/SENERGY-Platform/analytics-fog-lib v1.1.28
-	github.com/SENERGY-Platform/gin-middleware v0.14.1
+	github.com/SENERGY-Platform/gin-middleware v0.14.2
 	github.com/SENERGY-Platform/go-service-base/config-hdl v1.2.0
 	github.com/SENERGY-Platform/go-service-base/srv-info-hdl v0.2.0
 	github.com/SENERGY-Platform/go-service-base/struct-logger v0.6.0
